@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find trusted home service providers in Boac, Marinduque.">
+  <title>Boac Local Service Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- The site header keeps the main navigation easy to find. -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="index.html">Boac Local Service Finder</a>
+      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="providers.html">Providers</a></li>
+        <li><a href="requests.html">My Requests</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- A welcoming introduction points visitors toward provider listings. -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="eyebrow">Local help, right here in Boac</p>
+        <h1 id="hero-title">Find the right help for your home.</h1>
+        <p class="hero-copy">
+          Connect with local service providers in Boac, Marinduque for repairs,
+          cleaning, and more.
+        </p>
+        <a class="button" href="providers.html">Find a Provider</a>
+      </div>
+      <div class="hero-highlight" aria-hidden="true">
+        <span class="highlight-icon">⌂</span>
+        <p>Helpful people.<br>Close to home.</p>
+      </div>
+    </section>
+
+    <!-- Each category leads to the provider directory. -->
+    <section class="services section-wrap" aria-labelledby="services-title">
+      <div class="section-heading">
+        <p class="eyebrow">What do you need?</p>
+        <h2 id="services-title">Explore local services</h2>
+        <p>Choose a category to find someone who can help.</p>
+      </div>
+      <div class="service-grid">
+        <a class="service-card" href="providers.html?category=plumbing">
+          <span class="service-icon" aria-hidden="true">🔧</span>
+          <h3>Plumbing</h3>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="service-card" href="providers.html?category=electrical">
+          <span class="service-icon" aria-hidden="true">⚡</span>
+          <h3>Electrical</h3>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="service-card" href="providers.html?category=cleaning">
+          <span class="service-icon" aria-hidden="true">🧹</span>
+          <h3>Cleaning</h3>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="service-card" href="providers.html?category=carpentry">
+          <span class="service-icon" aria-hidden="true">🪚</span>
+          <h3>Carpentry</h3>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="service-card" href="providers.html?category=appliance-repair">
+          <span class="service-icon" aria-hidden="true">🛠️</span>
+          <h3>Appliance Repair</h3>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- A short, three-step guide explains the service request process. -->
+    <section class="how-it-works" aria-labelledby="how-title">
+      <div class="section-wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Simple from start to finish</p>
+          <h2 id="how-title">How it works</h2>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-number">01</span>
+            <h3>Search</h3>
+            <p>Browse local providers by the service you need.</p>
+          </li>
+          <li class="step">
+            <span class="step-number">02</span>
+            <h3>View a profile</h3>
+            <p>Learn about a provider and the services they offer.</p>
+          </li>
+          <li class="step">
+            <span class="step-number">03</span>
+            <h3>Send a request</h3>
+            <p>Share the details of your job and get in touch.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html">Boac Local Service Finder</a>
+      <p>Connecting Boac residents with local home service providers.</p>
+      <p class="copyright">&copy; 2026 Boac Local Service Finder</p>
+    </div>
+  </footer>
+</body>
+</html>

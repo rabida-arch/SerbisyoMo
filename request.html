@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Send a home service request to a local Boac provider.">
+  <title>Request a Service | Boac Local Service Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- Keep navigation consistent throughout the site. -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="index.html">Boac Local Service Finder</a>
+      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="providers.html">Providers</a></li>
+        <li><a href="requests.html">My Requests</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="request-page section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">Tell us what you need</p>
+      <h1>Request a home service</h1>
+      <p>Share a few details so your service provider can follow up.</p>
+    </div>
+
+    <section class="request-form-card" aria-labelledby="request-form-title">
+      <h2 class="visually-hidden" id="request-form-title">Service request form</h2>
+      <p class="request-provider" id="request-provider"></p>
+      <div class="request-feedback" id="request-feedback" role="status" aria-live="polite"></div>
+      <form id="service-request-form" novalidate>
+        <div class="request-fields">
+          <div class="request-field">
+            <label for="requester-name">Full name</label>
+            <input id="requester-name" name="fullName" type="text" autocomplete="name" required aria-describedby="requester-name-error">
+            <p class="field-error" id="requester-name-error"></p>
+          </div>
+
+          <div class="request-field">
+            <label for="requester-contact">Contact number</label>
+            <input id="requester-contact" name="contactNumber" type="tel" inputmode="numeric" autocomplete="tel" maxlength="11" pattern="[0-9]{11}" placeholder="11-digit mobile number" required aria-describedby="requester-contact-error">
+            <p class="field-error" id="requester-contact-error"></p>
+          </div>
+
+          <div class="request-field">
+            <label for="service-category">Type of service needed</label>
+            <select id="service-category" name="category" required aria-describedby="service-category-error">
+              <option value="">Select a service</option>
+              <option value="Plumbing">Plumbing</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Cleaning">Cleaning</option>
+              <option value="Carpentry">Carpentry</option>
+              <option value="Appliance Repair">Appliance Repair</option>
+            </select>
+            <p class="field-error" id="service-category-error"></p>
+          </div>
+
+          <div class="request-field request-field-wide">
+            <label for="work-description">Description of the work needed</label>
+            <textarea id="work-description" name="workDescription" rows="5" required aria-describedby="work-description-error"></textarea>
+            <p class="field-error" id="work-description-error"></p>
+          </div>
+
+          <div class="request-field">
+            <label for="requester-barangay">Location or barangay</label>
+            <select id="requester-barangay" name="barangay" required aria-describedby="requester-barangay-error">
+              <option value="">Select a barangay</option>
+            </select>
+            <p class="field-error" id="requester-barangay-error"></p>
+          </div>
+
+          <div class="request-field">
+            <label for="preferred-date">Preferred date</label>
+            <input id="preferred-date" name="preferredDate" type="date" required aria-describedby="preferred-date-error">
+            <p class="field-error" id="preferred-date-error"></p>
+          </div>
+        </div>
+
+        <button class="button request-submit" type="submit">Submit Request</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- The shared footer provides the same closing information as other pages. -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html">Boac Local Service Finder</a>
+      <p>Connecting Boac residents with local home service providers.</p>
+      <p class="copyright">&copy; 2026 Boac Local Service Finder</p>
+    </div>
+  </footer>
+</body>
+</html>

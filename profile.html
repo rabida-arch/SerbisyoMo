@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View details and contact a local Boac home service provider.">
+  <title>Provider Profile | Boac Local Service Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- Keep navigation consistent throughout the site. -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="index.html">Boac Local Service Finder</a>
+      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="providers.html">Providers</a></li>
+        <li><a href="requests.html">My Requests</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="profile-page section-wrap">
+    <a class="back-link" href="providers.html">← Back to Providers</a>
+    <section id="provider-profile" class="profile-card" aria-live="polite" hidden>
+      <!-- JavaScript fills in the selected provider's profile. -->
+    </section>
+    <section id="provider-not-found" class="profile-not-found" aria-live="polite" hidden>
+      <h1>Provider not found</h1>
+      <p>We couldn't find a provider with that profile ID.</p>
+      <a class="button" href="providers.html">Browse Providers</a>
+    </section>
+  </main>
+
+  <!-- The shared footer provides the same closing information as other pages. -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html">Boac Local Service Finder</a>
+      <p>Connecting Boac residents with local home service providers.</p>
+      <p class="copyright">&copy; 2026 Boac Local Service Finder</p>
+    </div>
+  </footer>
+</body>
+</html>

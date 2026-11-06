@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse home service providers in Boac, Marinduque.">
+  <title>Find Providers | Boac Local Service Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- Keep navigation consistent throughout the site. -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="index.html">Boac Local Service Finder</a>
+      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="providers.html" aria-current="page">Providers</a></li>
+        <li><a href="requests.html">My Requests</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="provider-listing section-wrap" aria-labelledby="providers-title">
+      <div class="section-heading">
+        <p class="eyebrow">Boac, Marinduque</p>
+        <h1 id="providers-title">Find a local service provider</h1>
+        <p>Explore local professionals ready to help with your home.</p>
+      </div>
+      <form class="provider-filters" id="provider-filters" role="search">
+        <div class="filter-field filter-search">
+          <label for="provider-search">Search providers</label>
+          <input
+            id="provider-search"
+            name="search"
+            type="search"
+            placeholder="Search name, service, or keyword"
+            autocomplete="off"
+          >
+        </div>
+        <div class="filter-field">
+          <label for="category-filter">Service category</label>
+          <select id="category-filter" name="category">
+            <option value="">All categories</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="barangay-filter">Barangay</label>
+          <select id="barangay-filter" name="barangay">
+            <option value="">All barangays</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="price-filter">Price range</label>
+          <select id="price-filter" name="price">
+            <option value="">Any price</option>
+            <option value="below-300">Below ₱300</option>
+            <option value="300-600">₱300 to ₱600</option>
+            <option value="above-600">Above ₱600</option>
+          </select>
+        </div>
+        <button class="button clear-filters" id="clear-filters" type="button">Clear Filters</button>
+      </form>
+      <p class="provider-count" id="provider-count" aria-live="polite"></p>
+      <div id="provider-grid" class="provider-grid" aria-live="polite">
+        <!-- Provider cards are rendered here from js/data.js. -->
+      </div>
+    </section>
+  </main>
+
+  <!-- The shared footer provides the same closing information as the home page. -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html">Boac Local Service Finder</a>
+      <p>Connecting Boac residents with local home service providers.</p>
+      <p class="copyright">&copy; 2026 Boac Local Service Finder</p>
+    </div>
+  </footer>
+</body>
+</html>
