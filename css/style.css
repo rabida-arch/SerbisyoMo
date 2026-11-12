@@ -1,25 +1,25 @@
-/* Soft service palette: calm teal, warm neutrals, easy on the eyes.
-   Suited to a local home-service finder (trustworthy, clear, not harsh). */
+/* Local services palette: deep indigo + warm coral (no green).
+   Feels professional for trades and personal services, easy on the eyes. */
 :root {
-  --deep-teal: #1F6F68;
-  --deep-teal-strong: #185A54;
-  --navy: #243044;
-  --ink: #1A2433;
-  --warm-orange: #D4922A;
-  --warm-orange-hover: #C28322;
-  --off-white: #F3F1EC;
+  --deep-teal: #3B4F7A;
+  --deep-teal-strong: #2F3F63;
+  --navy: #1F2A3D;
+  --ink: #182231;
+  --warm-orange: #E07A4F;
+  --warm-orange-hover: #CF6B41;
+  --off-white: #F5F2EE;
   --white: #FFFdf9;
-  --mint: #E4F0EE;
-  --muted: #5E6B7A;
-  --line: #D7DEE6;
-  --header-bg: #1F6F68;
+  --mint: #EEF1F7;
+  --muted: #5C6778;
+  --line: #D8DEE8;
+  --header-bg: #2A3A5C;
   --card-hover: #F7F5F1;
-  --success: #2F8F64;
+  --success: #3D7A5F;
   --danger: #C45C5C;
   --content-width: 1120px;
   --font-heading: "Lexend", "Segoe UI", system-ui, sans-serif;
   --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --shadow-soft: 0 10px 28px rgba(36, 48, 68, 0.08);
+  --shadow-soft: 0 10px 28px rgba(31, 42, 61, 0.09);
   color-scheme: light;
 }
 
@@ -162,8 +162,8 @@ h2 {
   overflow: hidden;
   border-radius: 24px;
   background:
-    radial-gradient(circle at 88% 18%, rgba(31, 111, 104, 0.12), transparent 42%),
-    radial-gradient(circle at 12% 82%, rgba(212, 146, 42, 0.10), transparent 40%),
+    radial-gradient(circle at 88% 18%, rgba(59, 79, 122, 0.12), transparent 42%),
+    radial-gradient(circle at 12% 82%, rgba(224, 122, 79, 0.12), transparent 40%),
     var(--mint);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-soft);
@@ -274,13 +274,13 @@ h2 {
 /* Cards remain clickable across their full area on both desktop and mobile. */
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
 }
 
 @media (min-width: 901px) {
   .service-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 
@@ -378,8 +378,8 @@ h2 {
 /* The footer repeats the site identity and offers a quiet closing note. */
 .site-footer {
   padding: 2.5rem 0;
-  background: #184E49;
-  color: #D7E8E5;
+  background: #243552;
+  color: #D7DFF0;
 }
 
 .footer-inner {
@@ -395,7 +395,7 @@ h2 {
 
 .footer-inner p {
   margin-bottom: 0.4rem;
-  color: #B7D0CB;
+  color: #A9B5CB;
 }
 
 .footer-inner .copyright {
@@ -2342,7 +2342,7 @@ button:active {
   border-radius: 18px;
   border: 1px solid var(--line);
   background:
-    linear-gradient(135deg, rgba(31, 111, 104, 0.10), transparent 55%),
+    linear-gradient(135deg, rgba(59, 79, 122, 0.10), transparent 55%),
     var(--white);
   display: flex;
   flex-wrap: wrap;
@@ -2375,8 +2375,8 @@ button:active {
 }
 
 .site-footer {
-  background: #184E49;
-  color: #D7E8E5;
+  background: #243552;
+  color: #D7DFF0;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -2418,7 +2418,7 @@ button:active {
 
 .auth-body {
   background:
-    radial-gradient(circle at top, rgba(31, 111, 104, 0.10), transparent 40%),
+    radial-gradient(circle at top, rgba(59, 79, 122, 0.10), transparent 40%),
     var(--off-white);
 }
 

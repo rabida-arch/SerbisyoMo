@@ -1,5 +1,5 @@
 // Demonstration data only. Names, contact details, rates, ratings, and availability are fictional.
-// Sample set covers 10 home service categories for Boac, Marinduque.
+// Sample set covers 18 local service categories for Boac, Marinduque.
 const providers = [
   {
     "id": 1,
@@ -27,7 +27,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -46,7 +46,7 @@ const providers = [
       {
         "name": "Carlos",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-08-08"
       }
     ]
@@ -77,7 +77,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -170,7 +170,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -183,7 +183,7 @@ const providers = [
       {
         "name": "Dante",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-14"
       }
     ]
@@ -214,7 +214,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -307,14 +307,14 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
       {
         "name": "Gil",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-21"
       },
       {
@@ -357,7 +357,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -419,7 +419,7 @@ const providers = [
       {
         "name": "Pedro",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-07-31"
       }
     ]
@@ -450,7 +450,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -496,7 +496,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
@@ -559,7 +559,7 @@ const providers = [
       {
         "name": "Miguel",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-06"
       }
     ]
@@ -592,7 +592,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -644,7 +644,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -694,7 +694,7 @@ const providers = [
       {
         "name": "Carlos",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-13"
       },
       {
@@ -739,7 +739,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -784,7 +784,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -803,7 +803,7 @@ const providers = [
       {
         "name": "Dante",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-07-23"
       }
     ]
@@ -881,7 +881,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
@@ -931,7 +931,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -944,7 +944,7 @@ const providers = [
       {
         "name": "Gil",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-18"
       }
     ]
@@ -1026,7 +1026,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -1072,14 +1072,14 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
       {
         "name": "Pedro",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-25"
       },
       {
@@ -1167,7 +1167,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -1186,7 +1186,7 @@ const providers = [
       {
         "name": "Miguel",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-08-04"
       }
     ]
@@ -1219,7 +1219,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -1314,7 +1314,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -1327,7 +1327,7 @@ const providers = [
       {
         "name": "Carlos",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-10"
       }
     ]
@@ -1358,7 +1358,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -1454,14 +1454,14 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
       {
         "name": "Dante",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-17"
       },
       {
@@ -1506,7 +1506,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -1568,7 +1568,7 @@ const providers = [
       {
         "name": "Gil",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-07-27"
       }
     ]
@@ -1601,7 +1601,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -1647,7 +1647,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
@@ -1710,7 +1710,7 @@ const providers = [
       {
         "name": "Pedro",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-02"
       }
     ]
@@ -1743,7 +1743,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -1793,7 +1793,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -1844,7 +1844,7 @@ const providers = [
       {
         "name": "Miguel",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-09"
       },
       {
@@ -1889,7 +1889,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -1934,7 +1934,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -1953,7 +1953,7 @@ const providers = [
       {
         "name": "Carlos",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-08-08"
       }
     ]
@@ -2029,7 +2029,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
@@ -2080,7 +2080,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -2093,7 +2093,7 @@ const providers = [
       {
         "name": "Dante",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-14"
       }
     ]
@@ -2175,7 +2175,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -2220,14 +2220,14 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
       {
         "name": "Gil",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-21"
       },
       {
@@ -2315,7 +2315,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -2334,7 +2334,7 @@ const providers = [
       {
         "name": "Pedro",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-07-31"
       }
     ]
@@ -2366,7 +2366,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -2461,7 +2461,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -2474,7 +2474,7 @@ const providers = [
       {
         "name": "Miguel",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-06"
       }
     ]
@@ -2506,7 +2506,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a day",
     "reviews": [
@@ -2601,14 +2601,14 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
       {
         "name": "Carlos",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-10-13"
       },
       {
@@ -2652,7 +2652,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Usually responds within a few hours",
     "reviews": [
@@ -2715,7 +2715,7 @@ const providers = [
       {
         "name": "Dante",
         "rating": 5,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-07-23"
       }
     ]
@@ -2747,7 +2747,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Often available same-day for urgent jobs",
     "reviews": [
@@ -2792,7 +2792,7 @@ const providers = [
     "languages": [
       "Tagalog",
       "English",
-      "Marinduqueño"
+      "Marinduque\u00f1o"
     ],
     "responseTime": "Replies within 24 hours on weekdays",
     "reviews": [
@@ -2855,8 +2855,744 @@ const providers = [
       {
         "name": "Gil",
         "rating": 4,
-        "comment": "Honest assessment of what was needed—no unnecessary extras.",
+        "comment": "Honest assessment of what was needed\u2014no unnecessary extras.",
         "date": "2026-09-18"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Glow by Ana Beauty Care",
+    "category": "Beauty Care",
+    "description": "Home beauty services, makeup, and skincare for everyday and special days.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 800,
+    "rateType": "per session",
+    "contactNumber": "09XX-XXX-1161",
+    "email": "provider61@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Makeup",
+      "Skincare",
+      "Home service"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Boac Home Glam",
+    "category": "Beauty Care",
+    "description": "Home beauty services, makeup, and skincare for everyday and special days.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 1000,
+    "rateType": "per session",
+    "contactNumber": "09XX-XXX-1162",
+    "email": "provider62@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Makeup",
+      "Skincare",
+      "Home service"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Kuya Ben's Barbershop",
+    "category": "Barbers",
+    "description": "Haircuts and grooming at home or in a nearby shop.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 150,
+    "rateType": "per cut",
+    "contactNumber": "09XX-XXX-1163",
+    "email": "provider63@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Haircut",
+      "Grooming",
+      "Beard trim"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Island Cuts Boac",
+    "category": "Barbers",
+    "description": "Haircuts and grooming at home or in a nearby shop.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 350,
+    "rateType": "per cut",
+    "contactNumber": "09XX-XXX-1164",
+    "email": "provider64@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Haircut",
+      "Grooming",
+      "Beard trim"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Lola's Catering Boac",
+    "category": "Catering",
+    "description": "Food packages for gatherings, parties, and small events in Boac.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 3500,
+    "rateType": "per package",
+    "contactNumber": "09XX-XXX-1165",
+    "email": "provider65@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Party trays",
+      "Buffet",
+      "Packed meals"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Marinduque Table Trays",
+    "category": "Catering",
+    "description": "Food packages for gatherings, parties, and small events in Boac.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 3700,
+    "rateType": "per package",
+    "contactNumber": "09XX-XXX-1166",
+    "email": "provider66@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Party trays",
+      "Buffet",
+      "Packed meals"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Boac Gather Events",
+    "category": "Event Organizers",
+    "description": "Coordination help for birthdays, reunions, and community events.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 5000,
+    "rateType": "per event",
+    "contactNumber": "09XX-XXX-1167",
+    "email": "provider67@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Planning",
+      "Coordination",
+      "Vendor booking"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Simple Celebrations PH",
+    "category": "Event Organizers",
+    "description": "Coordination help for birthdays, reunions, and community events.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 5200,
+    "rateType": "per event",
+    "contactNumber": "09XX-XXX-1168",
+    "email": "provider68@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Planning",
+      "Coordination",
+      "Vendor booking"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Frame & Light Studio",
+    "category": "Photographers",
+    "description": "Photo coverage for family events, debuts, and simple portraits.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 2500,
+    "rateType": "per package",
+    "contactNumber": "09XX-XXX-1169",
+    "email": "provider69@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Events",
+      "Portraits",
+      "Same-day edit"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Boac Moment Photos",
+    "category": "Photographers",
+    "description": "Photo coverage for family events, debuts, and simple portraits.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 2700,
+    "rateType": "per package",
+    "contactNumber": "09XX-XXX-1170",
+    "email": "provider70@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Events",
+      "Portraits",
+      "Same-day edit"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Cut & Color Edit Lab",
+    "category": "Editors",
+    "description": "Video and photo editing for events, reels, and simple projects.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 1200,
+    "rateType": "per project",
+    "contactNumber": "09XX-XXX-1171",
+    "email": "provider71@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Video edit",
+      "Photo edit",
+      "Reels"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Island Frame Editors",
+    "category": "Editors",
+    "description": "Video and photo editing for events, reels, and simple projects.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 1400,
+    "rateType": "per project",
+    "contactNumber": "09XX-XXX-1172",
+    "email": "provider72@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Video edit",
+      "Photo edit",
+      "Reels"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Tutor Nina Home Lessons",
+    "category": "Tutoring",
+    "description": "Home or online tutoring for basic subjects and exam review.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 300,
+    "rateType": "per hour",
+    "contactNumber": "09XX-XXX-1173",
+    "email": "provider73@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Math",
+      "English",
+      "Exam review"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Boac Study Buddy",
+    "category": "Tutoring",
+    "description": "Home or online tutoring for basic subjects and exam review.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 500,
+    "rateType": "per hour",
+    "contactNumber": "09XX-XXX-1174",
+    "email": "provider74@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Math",
+      "English",
+      "Exam review"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Raffy Motorcycle Service",
+    "category": "Mechanic",
+    "description": "Motorcycle and small vehicle check-ups, tune-ups, and basic repairs.",
+    "barangaysCovered": [
+      "Tanza",
+      "Mercado",
+      "Isok I"
+    ],
+    "yearsExperience": 4,
+    "rate": 500,
+    "rateType": "per job",
+    "contactNumber": "09XX-XXX-1175",
+    "email": "provider75@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.4,
+    "reviewCount": 20,
+    "specialties": [
+      "Tune-up",
+      "Oil change",
+      "Basic repair"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Boac Roadside Mechanic",
+    "category": "Mechanic",
+    "description": "Motorcycle and small vehicle check-ups, tune-ups, and basic repairs.",
+    "barangaysCovered": [
+      "Murallon",
+      "Malusak",
+      "Caganhao"
+    ],
+    "yearsExperience": 7,
+    "rate": 700,
+    "rateType": "per job",
+    "contactNumber": "09XX-XXX-1176",
+    "email": "provider76@example.com",
+    "availability": "Mon to Sat, 9AM to 6PM",
+    "rating": 4.6000000000000005,
+    "reviewCount": 32,
+    "specialties": [
+      "Tune-up",
+      "Oil change",
+      "Basic repair"
+    ],
+    "languages": [
+      "Tagalog",
+      "English"
+    ],
+    "responseTime": "Usually responds within a day",
+    "reviews": [
+      {
+        "name": "Liza",
+        "rating": 5,
+        "comment": "Arrived on time and explained everything clearly.",
+        "date": "2026-10-20"
+      },
+      {
+        "name": "Carlo",
+        "rating": 4,
+        "comment": "Fair price and careful work. Would book again.",
+        "date": "2026-09-12"
+      },
+      {
+        "name": "Maya",
+        "rating": 5,
+        "comment": "Professional and easy to coordinate with.",
+        "date": "2026-08-05"
       }
     ]
   }
