@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a SerbisyoMo resident or provider account.">
+  <title>Sign up | SerbisyoMo</title>
+  <meta name="theme-color" content="#0F766E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F766E'/%3E%3Cpath d='M8 15.5 16 8l8 7.5V24h-5v-6h-6v6H8z' fill='%23F59E0B'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/storage.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body class="auth-body">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="auth-topbar">
+    <a class="brand" href="index.html" translate="no">SerbisyoMo</a>
+    <a class="auth-top-link" href="index.html">Back to home</a>
+  </header>
+
+  <main id="main" tabindex="-1" class="auth-shell">
+    <div class="auth-card-single">
+      <div class="auth-card-header">
+        <p class="eyebrow">Get started</p>
+        <h1>Create your account</h1>
+        <p class="auth-subtitle">Join as a resident to request services, or as a provider to manage incoming jobs.</p>
+      </div>
+
+      <form id="register-form" class="auth-form" method="post" action="#" novalidate>
+        <fieldset class="role-toggle">
+          <legend class="visually-hidden">Account role</legend>
+          <label>
+            <input type="radio" name="role" value="resident" checked>
+            Resident
+          </label>
+          <label>
+            <input type="radio" name="role" value="provider">
+            Provider
+          </label>
+        </fieldset>
+
+        <div class="auth-field">
+          <label for="register-name">Full name</label>
+          <input id="register-name" name="name" type="text" autocomplete="name" required minlength="2" autofocus placeholder="Your full name">
+        </div>
+
+        <div class="auth-field">
+          <label for="register-email">Email</label>
+          <input id="register-email" name="email" type="email" inputmode="email" autocomplete="username" required spellcheck="false" placeholder="you@example.com">
+        </div>
+
+        <div class="auth-field">
+          <label for="register-contact">Mobile number</label>
+          <input id="register-contact" name="contact" type="tel" inputmode="tel" autocomplete="tel" placeholder="09123456789">
+        </div>
+
+        <div class="auth-field">
+          <label for="register-barangay">Barangay</label>
+          <input id="register-barangay" name="barangay" type="text" placeholder="e.g. Tanza">
+        </div>
+
+        <div class="auth-field" data-role-fields="provider" hidden>
+          <label for="register-business">Business / trade name</label>
+          <input id="register-business" name="businessName" type="text" data-required-when-visible="true" placeholder="Your shop or service name">
+        </div>
+
+        <div class="auth-field" data-role-fields="provider" hidden>
+          <label for="register-provider-link">Link to demo provider listing (optional)</label>
+          <select id="register-provider-link" name="providerId">
+            <option value="">No linked listing</option>
+          </select>
+          <p class="field-hint">Linking lets this account manage requests sent to that listing.</p>
+        </div>
+
+        <div class="auth-field">
+          <label for="register-password">Password</label>
+          <div class="password-input-wrap">
+            <input id="register-password" name="password" type="password" autocomplete="new-password" required minlength="6" aria-describedby="password-constraints" placeholder="Create a password">
+            <button type="button" class="password-toggle" data-password-toggle="register-password" aria-label="Show password">Show</button>
+          </div>
+          <p class="field-hint" id="password-constraints">At least 6 characters. Stored only in this browser.</p>
+        </div>
+
+        <p class="field-error auth-form-error" id="register-error" role="alert" aria-live="polite"></p>
+        <button class="button auth-submit" type="submit">Create account</button>
+      </form>
+
+      <p class="auth-switch">
+        Already have an account?
+        <a data-auth-switch href="login.html">Log in</a>
+      </p>
+
+      <p class="auth-demo-note">Accounts and requests stay in this browser only. Do not enter real sensitive data.</p>
+    </div>
+  </main>
+</body>
+</html>

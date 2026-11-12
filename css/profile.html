@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View details and contact a local Boac home service provider.">
+  <title>Provider Profile | SerbisyoMo</title>
+  <meta name="theme-color" content="#0F766E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F766E'/%3E%3Cpath d='M8 15.5 16 8l8 7.5V24h-5v-6h-6v6H8z' fill='%23F59E0B'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/storage.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <!-- Keep navigation consistent throughout the site. -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="index.html" translate="no">SerbisyoMo</a>
+      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="providers.html">Providers</a></li>
+        <li><a href="requests.html">My Requests</a></li>
+        <li data-auth-slot>
+          <a href="login.html">Log in</a>
+        </li>
+        <li data-auth-signup>
+          <a class="nav-signup" href="signup.html">Sign up</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1" class="profile-page section-wrap">
+    <a class="back-link" href="providers.html">← Back to Providers</a>
+    <section id="provider-profile" class="profile-card" aria-live="polite" hidden>
+      <!-- JavaScript fills in the selected provider's profile. -->
+    </section>
+    <section id="provider-not-found" class="profile-not-found" aria-live="polite" hidden>
+      <h1>Provider not found</h1>
+      <p>We couldn't find a provider with that profile ID.</p>
+      <a class="button" href="providers.html">Browse Providers</a>
+    </section>
+  </main>
+
+  <!-- The shared footer provides the same closing information as other pages. -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html" translate="no">SerbisyoMo</a>
+      <p>Boac Local Service Finder: connecting residents with local home service providers.</p>
+      <p class="copyright">&copy;&nbsp;2026 <span translate="no">SerbisyoMo</span></p>
+    </div>
+  </footer>
+</body>
+</html>
