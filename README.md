@@ -50,7 +50,7 @@ SerbisyoMo/
 - Leave feedback when logged in
 - Cancel pending requests
 
-### Added / improved (patterns inspired by BPBuddy)
+### Added / improved 
 - **Storage layer** (`storage.js`) with versioned keys and legacy migration
 - **Role-aware accounts**: Resident and Provider
 - **Provider dashboard**: update status, add quote amount and notes
