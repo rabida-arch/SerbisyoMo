@@ -923,6 +923,36 @@ h2 {
   background: #FECACA;
 }
 
+.request-feedback-section {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.request-feedback-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.request-feedback-hint {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.request-feedback-form {
+  max-width: 28rem;
+}
+
+.request-feedback-done {
+  margin: 1.25rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  color: #166534;
+  font-weight: 600;
+}
+
 .requests-empty-state {
   padding: 2.5rem 1.5rem;
   text-align: center;

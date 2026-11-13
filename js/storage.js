@@ -138,10 +138,22 @@
     return Array.isArray(list) ? list : [];
   };
 
+  const hasFeedbackForRequest = (requestId) => {
+    if (!requestId) return false;
+    const all = getFeedback();
+    const target = String(requestId);
+    return Object.values(all).some(
+      (list) => Array.isArray(list) && list.some((entry) => String(entry.requestId) === target)
+    );
+  };
+
   const addFeedback = (providerId, entry) => {
     const all = getFeedback();
     const key = String(providerId);
     const list = Array.isArray(all[key]) ? all[key] : [];
+    if (entry.requestId && list.some((item) => String(item.requestId) === String(entry.requestId))) {
+      throw new Error('You already left feedback for this completed request.');
+    }
     list.unshift(entry);
     all[key] = list;
     write(KEYS.feedback, all);
@@ -189,6 +201,7 @@
     getRequestsForProvider,
     getFeedback,
     getFeedbackForProvider,
+    hasFeedbackForRequest,
     addFeedback,
     getFavorites,
     toggleFavorite,

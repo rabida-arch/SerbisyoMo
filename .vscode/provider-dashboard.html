@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Provider dashboard for managing service requests on SerbisyoMo.">
+  <title>Provider dashboard | SerbisyoMo</title>
+  <meta name="theme-color" content="#2A3A5C">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232A3A5C'/%3E%3Cpath d='M8 15.5 16 8l8 7.5V24h-5v-6h-6v6H8z' fill='%23E07A4F'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/storage.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/provider-dashboard.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <!-- Provider workspace navigation: provider tools only, no resident links (Home / Providers). -->
+    <nav class="navbar" aria-label="Provider navigation">
+      <a class="brand" href="provider-dashboard.html" translate="no">SerbisyoMo</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="provider-dashboard.html" aria-current="page">Dashboard</a></li>
+        <li data-auth-slot><a href="login.html?next=provider-dashboard.html">Log in</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1" class="section-wrap dashboard-page">
+    <div class="section-heading">
+      <p class="eyebrow">Provider workspace</p>
+      <h1>Incoming requests</h1>
+      <p>Review jobs sent to your listing, send a quote, and update status. Everything stays in this browser.</p>
+    </div>
+
+    <section id="provider-profile-summary" class="provider-summary" aria-label="Account summary"></section>
+
+    <div id="dashboard-stats" class="stats-grid" aria-label="Request counts"></div>
+
+    <div class="dashboard-toolbar">
+      <div class="auth-field">
+        <label for="status-filter">Filter by status</label>
+        <select id="status-filter" autocomplete="off">
+          <option value="all" selected>All requests</option>
+          <option value="Pending">Pending</option>
+          <option value="Quoted">Quoted</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Declined">Declined</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+      <p id="dashboard-count" class="dashboard-count" aria-live="polite"></p>
+    </div>
+
+    <div id="provider-empty" class="requests-empty-state" hidden>
+      <h2 id="provider-empty-title">No requests yet</h2>
+      <p id="provider-empty-text">No requests for your listing yet.</p>
+    </div>
+    <div id="provider-requests" class="requests-list" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="provider-dashboard.html" translate="no">SerbisyoMo</a>
+      <p>Boac Local Service Finder: connecting residents with local home service providers.</p>
+      <p class="copyright">&copy;&nbsp;2026 <span translate="no">SerbisyoMo</span></p>
+    </div>
+  </footer>
+</body>
+</html>

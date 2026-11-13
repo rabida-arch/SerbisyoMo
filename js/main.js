@@ -366,39 +366,35 @@
     return card;
   }
 
-  function createFeedbackForm(provider, reviewsContainer) {
-    const section = document.createElement('section');
-    section.className = 'profile-section feedback-form-section';
-    const title = document.createElement('h2');
-    title.textContent = 'Leave feedback';
-    section.append(title);
+  function createRequestFeedbackForm(serviceRequest, onSubmitted) {
+    const providerId = serviceRequest.providerId;
+    if (!providerId) return null;
 
     const user = auth?.currentUser?.();
-    if (!user || user.role !== 'resident') {
-      const note = document.createElement('p');
-      note.className = 'feedback-login-prompt';
-      note.append(
-        document.createTextNode('Log in as a resident to share your experience with this provider. ')
-      );
-      const link = document.createElement('a');
-      link.href = `login.html?next=${encodeURIComponent(`profile.html?id=${provider.id}`)}`;
-      link.textContent = 'Log in';
-      note.append(link);
-      section.append(note);
-      return section;
-    }
+    if (!user || user.role !== 'resident') return null;
+
+    const section = document.createElement('section');
+    section.className = 'request-feedback-section';
+    const title = document.createElement('h3');
+    title.className = 'request-feedback-title';
+    title.textContent = 'Rate this service';
+    const hint = document.createElement('p');
+    hint.className = 'request-feedback-hint';
+    hint.textContent = 'Share how this completed job went for you.';
+    section.append(title, hint);
 
     const form = document.createElement('form');
-    form.className = 'feedback-form';
+    form.className = 'feedback-form request-feedback-form';
     form.noValidate = true;
 
+    const fieldId = `req-${serviceRequest.id}`;
     const ratingField = document.createElement('div');
     ratingField.className = 'auth-field';
     const ratingLabel = document.createElement('label');
-    ratingLabel.htmlFor = `feedback-rating-${provider.id}`;
+    ratingLabel.htmlFor = `feedback-rating-${fieldId}`;
     ratingLabel.textContent = 'Rating';
     const ratingSelect = document.createElement('select');
-    ratingSelect.id = `feedback-rating-${provider.id}`;
+    ratingSelect.id = `feedback-rating-${fieldId}`;
     ratingSelect.name = 'rating';
     ratingSelect.required = true;
     ['', '5', '4', '3', '2', '1'].forEach((value, index) => {
@@ -412,10 +408,10 @@
     const commentField = document.createElement('div');
     commentField.className = 'auth-field';
     const commentLabel = document.createElement('label');
-    commentLabel.htmlFor = `feedback-comment-${provider.id}`;
+    commentLabel.htmlFor = `feedback-comment-${fieldId}`;
     commentLabel.textContent = 'Comment';
     const commentInput = document.createElement('textarea');
-    commentInput.id = `feedback-comment-${provider.id}`;
+    commentInput.id = `feedback-comment-${fieldId}`;
     commentInput.name = 'comment';
     commentInput.rows = 3;
     commentInput.required = true;
@@ -442,7 +438,8 @@
           rating: Number(ratingSelect.value),
           comment: commentInput.value.trim(),
           date: new Date().toISOString().slice(0, 10),
-          userId: user.id
+          userId: user.id,
+          requestId: serviceRequest.id
         };
         if (!entry.comment || entry.comment.length < 5) {
           throw new Error('Please write a short comment (at least 5 characters).');
@@ -450,12 +447,9 @@
         if (!Number.isFinite(entry.rating) || entry.rating < 1 || entry.rating > 5) {
           throw new Error('Please choose a rating from 1 to 5.');
         }
-        store.addFeedback(provider.id, entry);
-        const empty = reviewsContainer.querySelector('.reviews-empty');
-        if (empty) empty.remove();
-        reviewsContainer.prepend(createReviewCard(entry));
-        form.reset();
+        store.addFeedback(providerId, entry);
         common?.showToast?.('Thanks for your feedback.', 'success');
+        if (typeof onSubmitted === 'function') onSubmitted(entry);
       } catch (err) {
         error.textContent = err.message || 'Could not save feedback.';
       }
@@ -539,14 +533,12 @@
     if (reviews.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'reviews-empty';
-      empty.textContent = 'No feedback yet. Be the first to share your experience.';
+      empty.textContent = 'No feedback yet. Ratings appear after residents complete a service request.';
       reviewsList.append(empty);
     } else {
       reviews.forEach((review) => reviewsList.append(createReviewCard(review)));
     }
     reviewsSection.append(reviewsTitle, reviewsList);
-
-    const feedbackSection = createFeedbackForm(provider, reviewsList);
 
     const actions = document.createElement('div');
     actions.className = 'profile-actions';
@@ -569,7 +561,6 @@
       serviceDetails,
       contactSection,
       reviewsSection,
-      feedbackSection,
       actions
     );
     return profile;
@@ -913,6 +904,31 @@
     }
 
     card.append(header, details, actions);
+
+    if (statusValue === 'Completed' && serviceRequest.providerId) {
+      const alreadyRated =
+        typeof store.hasFeedbackForRequest === 'function' &&
+        store.hasFeedbackForRequest(serviceRequest.id);
+      if (alreadyRated) {
+        const doneNote = document.createElement('p');
+        doneNote.className = 'request-feedback-done';
+        doneNote.textContent = 'You already rated this completed service. Thank you!';
+        card.append(doneNote);
+      } else {
+        const feedbackForm = createRequestFeedbackForm(serviceRequest, () => {
+          // Replace the form with a confirmation after submit.
+          const parent = feedbackForm.parentElement;
+          if (parent) {
+            const doneNote = document.createElement('p');
+            doneNote.className = 'request-feedback-done';
+            doneNote.textContent = 'You already rated this completed service. Thank you!';
+            feedbackForm.replaceWith(doneNote);
+          }
+        });
+        if (feedbackForm) card.append(feedbackForm);
+      }
+    }
+
     return card;
   }
 
