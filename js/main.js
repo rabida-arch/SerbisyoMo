@@ -7,6 +7,64 @@
   const common = window.SerbisyoCommon;
   const requestStatuses = ['Pending', 'Quoted', 'Accepted', 'Declined', 'Completed', 'Cancelled'];
 
+  // The page (with its query string) to return to after logging in.
+  function getCurrentPagePath() {
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    return page + window.location.search;
+  }
+
+  // Residents are the only accounts that send and track service requests.
+  function getResidentUser() {
+    const user = auth?.currentUser?.();
+    return user && user.role === 'resident' ? user : null;
+  }
+
+  function isRequestOwnedBy(item, user) {
+    return Boolean(
+      item && user && (item.userId === user.id || (!item.userId && item.fullName === user.name))
+    );
+  }
+
+  // Card shown instead of the request form / request list when access is not allowed.
+  function createAccessCard(title, message, actions) {
+    const card = document.createElement('div');
+    card.className = 'requests-empty-state auth-required-card';
+    const heading = document.createElement('h2');
+    heading.textContent = title;
+    const text = document.createElement('p');
+    text.textContent = message;
+    const buttons = document.createElement('div');
+    buttons.className = 'auth-required-actions';
+    actions.forEach((action) => {
+      const link = document.createElement('a');
+      link.className = action.secondary ? 'button button-secondary' : 'button';
+      link.href = action.href;
+      link.textContent = action.label;
+      buttons.append(link);
+    });
+    card.append(heading, text, buttons);
+    return card;
+  }
+
+  function createAccessGate(user, purpose) {
+    if (user && user.role === 'provider') {
+      return createAccessCard(
+        'Resident accounts only',
+        `You are signed in as a provider. Use a resident account to ${purpose}, or manage incoming requests from your dashboard.`,
+        [{ label: 'Go to Provider Dashboard', href: 'provider-dashboard.html' }]
+      );
+    }
+    const next = encodeURIComponent(getCurrentPagePath());
+    return createAccessCard(
+      'Log in to continue',
+      `You need a resident account to ${purpose}. Log in or create a free account to continue.`,
+      [
+        { label: 'Log in', href: `login.html?next=${next}` },
+        { label: 'Sign up', href: `signup.html?next=${next}`, secondary: true }
+      ]
+    );
+  }
+
   function createProviderDetail(label, value) {
     const detail = document.createElement('div');
     detail.className = 'provider-detail';
@@ -494,7 +552,10 @@
     actions.className = 'profile-actions';
     const requestLink = document.createElement('a');
     requestLink.className = 'button';
-    requestLink.href = `request.html?id=${encodeURIComponent(provider.id)}`;
+    const requestPath = `request.html?id=${encodeURIComponent(provider.id)}`;
+    requestLink.href = auth?.currentUser?.()
+      ? requestPath
+      : `login.html?next=${encodeURIComponent(requestPath)}`;
     requestLink.textContent = 'Request this Service';
     const backLink = document.createElement('a');
     backLink.className = 'text-link';
@@ -587,6 +648,18 @@
 
     const feedback = document.querySelector('#request-feedback');
     const providerMessage = document.querySelector('#request-provider');
+
+    // Only signed-in residents may send a request.
+    const accessUser = auth?.currentUser?.();
+    if (!getResidentUser()) {
+      form.hidden = true;
+      form.style.display = 'none';
+      form.addEventListener('submit', (event) => event.preventDefault());
+      if (providerMessage) providerMessage.textContent = '';
+      feedback.replaceChildren(createAccessGate(accessUser, 'request a service'));
+      return;
+    }
+
     const barangaySelect = document.querySelector('#requester-barangay');
     const preferredDate = document.querySelector('#preferred-date');
     preferredDate.min = getLocalDateString();
@@ -679,10 +752,17 @@
         return;
       }
 
-      const currentUser = auth?.currentUser?.();
+      // The session may have ended in another tab since the page loaded.
+      const currentUser = getResidentUser();
+      if (!currentUser) {
+        form.hidden = true;
+        form.style.display = 'none';
+        feedback.replaceChildren(createAccessGate(auth?.currentUser?.(), 'request a service'));
+        return;
+      }
       const serviceRequest = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        userId: currentUser?.id || null,
+        userId: currentUser.id,
         providerId: selectedProvider ? selectedProvider.id : null,
         providerName: selectedProvider ? selectedProvider.name : null,
         fullName: fields.fullName.value.trim(),
@@ -823,15 +903,20 @@
     const requestsList = document.querySelector('#requests-list');
     if (!requestsList) return;
 
+    // Requests are private: only a signed-in resident sees their own.
+    if (!getResidentUser()) {
+      requestsList.replaceChildren(createAccessGate(auth?.currentUser?.(), 'view your requests'));
+      return;
+    }
+
     const refreshRequests = () => {
       try {
-        const user = auth?.currentUser?.();
-        let list = store.getRequests();
-        if (user?.role === 'resident') {
-          list = list.filter(
-            (item) => item.userId === user.id || (!item.userId && item.fullName === user.name)
-          );
+        const user = getResidentUser();
+        if (!user) {
+          requestsList.replaceChildren(createAccessGate(auth?.currentUser?.(), 'view your requests'));
+          return;
         }
+        const list = store.getRequests().filter((item) => isRequestOwnedBy(item, user));
         renderServiceRequests(requestsList, list);
       } catch (error) {
         console.error('Could not load saved service requests.', error);
@@ -846,6 +931,12 @@
     requestsList.addEventListener('click', (event) => {
       const cancelButton = event.target.closest('.cancel-request');
       if (!cancelButton) return;
+      const user = getResidentUser();
+      const target = store.getRequests().find((item) => item.id === cancelButton.dataset.requestId);
+      if (!isRequestOwnedBy(target, user)) {
+        refreshRequests();
+        return;
+      }
       if (!window.confirm('Are you sure you want to cancel this request?')) return;
       try {
         store.updateRequest(cancelButton.dataset.requestId, { status: 'Cancelled' });

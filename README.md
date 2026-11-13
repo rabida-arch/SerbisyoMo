@@ -55,7 +55,7 @@ SerbisyoMo/
 - **Role-aware accounts**: Resident and Provider
 - **Provider dashboard**: update status, add quote amount and notes
 - **Favorites** for residents
-- **Requests linked to the signed-in account**
+- **Requests linked to the signed-in account**: visitors who are not logged in cannot send requests or view My Requests; they are asked to log in or sign up first, and a resident only sees their own requests
 - **Offline-first shell**: service worker + web app manifest
 - **Connection status** and toast feedback
 - **Seeded demo accounts**

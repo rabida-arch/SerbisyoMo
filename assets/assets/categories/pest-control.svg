@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-label="pest-control">
+  <rect width="96" height="96" rx="22" fill="#EEF1F7"/>
+  <g fill="none" stroke="#3B4F7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(24 24) scale(2)">
+    <path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3 3 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/>
+  </g>
+</svg>

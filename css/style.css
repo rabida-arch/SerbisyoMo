@@ -2689,3 +2689,17 @@ button:active {
     padding: 1.25rem 1.1rem;
   }
 }
+
+/* Login-required card shown on the request form and My Requests pages. */
+.auth-required-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.auth-required-card p {
+  max-width: 42ch;
+  margin-right: auto;
+  margin-left: auto;
+}
