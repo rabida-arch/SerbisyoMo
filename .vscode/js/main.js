@@ -892,6 +892,24 @@
       details.append(createProviderDetail('Provider note', serviceRequest.providerNote));
     }
 
+    // Declined: show the provider's reason so the resident knows why.
+    let declineBox = null;
+    if (statusValue === 'Declined') {
+      declineBox = document.createElement('div');
+      declineBox.className = 'decline-reason';
+      const declineTitle = document.createElement('p');
+      declineTitle.className = 'decline-reason-title';
+      declineTitle.textContent = 'Reason for declining';
+      const declineBody = document.createElement('p');
+      declineBody.className = 'decline-reason-body';
+      const reasonText = [serviceRequest.declineReason, serviceRequest.declineMessage]
+        .filter(Boolean)
+        .join(': ');
+      declineBody.textContent =
+        reasonText || 'The provider did not leave a reason. You can try another provider.';
+      declineBox.append(declineTitle, declineBody);
+    }
+
     const actions = document.createElement('div');
     actions.className = 'request-history-actions';
     if (statusValue === 'Pending') {
@@ -903,7 +921,9 @@
       actions.append(cancelButton);
     }
 
-    card.append(header, details, actions);
+    card.append(header, details);
+    if (declineBox) card.append(declineBox);
+    card.append(actions);
 
     if (statusValue === 'Completed' && serviceRequest.providerId) {
       const alreadyRated =

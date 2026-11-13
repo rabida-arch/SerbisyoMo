@@ -41,6 +41,33 @@
 
     <div id="dashboard-stats" class="stats-grid" aria-label="Request counts"></div>
 
+    <!-- Scheduler: accepted requests are placed on their scheduled date automatically. -->
+    <section id="provider-schedule" class="schedule-panel" aria-labelledby="schedule-title">
+      <div class="schedule-header">
+        <div>
+          <h2 id="schedule-title">Work schedule</h2>
+          <p class="schedule-hint">Accepted requests appear here automatically on their scheduled date.</p>
+        </div>
+        <div class="schedule-nav">
+          <button type="button" class="schedule-nav-btn" id="schedule-prev" aria-label="Previous month">&lsaquo;</button>
+          <h3 id="schedule-month" class="schedule-month" aria-live="polite"></h3>
+          <button type="button" class="schedule-nav-btn" id="schedule-next" aria-label="Next month">&rsaquo;</button>
+          <button type="button" class="button schedule-today" id="schedule-today">Today</button>
+        </div>
+      </div>
+      <div class="schedule-layout">
+        <div class="schedule-calendar">
+          <div class="schedule-weekdays" aria-hidden="true"></div>
+          <div id="schedule-grid" class="schedule-grid" role="grid" aria-labelledby="schedule-month"></div>
+          <p class="schedule-legend">
+            <span class="legend-dot legend-accepted"></span> Accepted
+            <span class="legend-dot legend-completed"></span> Completed
+          </p>
+        </div>
+        <aside id="schedule-day" class="schedule-day" aria-live="polite" aria-label="Jobs on the selected date"></aside>
+      </div>
+    </section>
+
     <div class="dashboard-toolbar">
       <div class="auth-field">
         <label for="status-filter">Filter by status</label>

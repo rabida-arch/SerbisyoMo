@@ -7,6 +7,41 @@
   const common = window.SerbisyoCommon;
   const statuses = ['Pending', 'Quoted', 'Accepted', 'Declined', 'Completed', 'Cancelled'];
 
+  const declineReasons = [
+    'Fully booked on that date',
+    'Outside my service area',
+    "I don't offer this type of work",
+    'Schedule conflict',
+    'Other'
+  ];
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const toKey = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+  const todayKey = () => {
+    const t = new Date();
+    return toKey(t.getFullYear(), t.getMonth(), t.getDate());
+  };
+  const dateKey = (value) => {
+    if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? '' : toKey(d.getFullYear(), d.getMonth(), d.getDate());
+  };
+  // A job sits on its scheduled date; falls back to the resident's preferred date.
+  const jobKey = (request) => dateKey(request.scheduledDate || request.preferredDate);
+  const formatTime = (value) => {
+    const m = /^(\d{2}):(\d{2})$/.exec(value || '');
+    if (!m) return '';
+    const h = Number(m[1]);
+    return `${h % 12 || 12}:${m[2]} ${h >= 12 ? 'PM' : 'AM'}`;
+  };
+  const scheduledJobs = (requests) =>
+    requests.filter((r) => (r.status === 'Accepted' || r.status === 'Completed') && jobKey(r));
+  const byTime = (a, b) => (a.scheduledTime || '99:99').localeCompare(b.scheduledTime || '99:99');
+
+  const now = new Date();
+  const calendar = { year: now.getFullYear(), month: now.getMonth(), selected: todayKey() };
+  let currentRequests = [];
+
   const formatRate = (rate) =>
     new Intl.NumberFormat('en-PH', {
       style: 'currency',
@@ -72,6 +107,9 @@
     });
   };
 
+  const declineText = (request) =>
+    [request.declineReason, request.declineMessage].filter(Boolean).join(': ');
+
   const createRequestCard = (request) => {
     const card = document.createElement('article');
     card.className = 'request-history-card dashboard-request-card';
@@ -108,6 +146,15 @@
     }
     if (request.providerNote) {
       details.append(createDetail('Your note', request.providerNote));
+    }
+    if (statusValue === 'Declined' && (request.declineReason || request.declineMessage)) {
+      details.append(createDetail('Reason for declining', declineText(request)));
+    }
+    if (statusValue === 'Accepted' || statusValue === 'Completed') {
+      const when = [formatDate(jobKey(request)), formatTime(request.scheduledTime)]
+        .filter(Boolean)
+        .join(' at ');
+      details.append(createDetail('Scheduled', when));
     }
 
     const form = document.createElement('form');
@@ -161,12 +208,80 @@
     noteInput.value = request.providerNote || '';
     noteField.append(noteLabel, noteInput);
 
+    // Shown only when declining: the resident sees this on their request.
+    const declineWrap = document.createElement('div');
+    declineWrap.className = 'dashboard-conditional decline-fields';
+    const reasonField = document.createElement('div');
+    reasonField.className = 'auth-field';
+    const reasonLabel = document.createElement('label');
+    reasonLabel.htmlFor = `decline-reason-${request.id}`;
+    reasonLabel.textContent = 'Reason for declining';
+    const reasonSelect = document.createElement('select');
+    reasonSelect.id = `decline-reason-${request.id}`;
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Choose a reason…';
+    reasonSelect.append(placeholder);
+    declineReasons.forEach((text) => {
+      const option = document.createElement('option');
+      option.value = text;
+      option.textContent = text;
+      if (text === request.declineReason) option.selected = true;
+      reasonSelect.append(option);
+    });
+    reasonField.append(reasonLabel, reasonSelect);
+    const messageField = document.createElement('div');
+    messageField.className = 'auth-field';
+    const messageLabel = document.createElement('label');
+    messageLabel.htmlFor = `decline-message-${request.id}`;
+    messageLabel.textContent = 'Message to resident (required if "Other")';
+    const messageInput = document.createElement('textarea');
+    messageInput.id = `decline-message-${request.id}`;
+    messageInput.rows = 2;
+    messageInput.maxLength = 300;
+    messageInput.placeholder = 'Explain briefly so the resident can look for another provider';
+    messageInput.value = request.declineMessage || '';
+    messageField.append(messageLabel, messageInput);
+    declineWrap.append(reasonField, messageField);
+
+    // Shown only when accepting: lets the provider fine-tune the calendar entry.
+    const scheduleWrap = document.createElement('div');
+    scheduleWrap.className = 'dashboard-conditional schedule-fields';
+    const dateField = document.createElement('div');
+    dateField.className = 'auth-field';
+    const dateLabel = document.createElement('label');
+    dateLabel.htmlFor = `sched-date-${request.id}`;
+    dateLabel.textContent = 'Scheduled date';
+    const dateInput = document.createElement('input');
+    dateInput.id = `sched-date-${request.id}`;
+    dateInput.type = 'date';
+    dateInput.value = jobKey(request);
+    dateField.append(dateLabel, dateInput);
+    const timeField = document.createElement('div');
+    timeField.className = 'auth-field';
+    const timeLabel = document.createElement('label');
+    timeLabel.htmlFor = `sched-time-${request.id}`;
+    timeLabel.textContent = 'Start time (optional)';
+    const timeInput = document.createElement('input');
+    timeInput.id = `sched-time-${request.id}`;
+    timeInput.type = 'time';
+    timeInput.value = request.scheduledTime || '';
+    timeField.append(timeLabel, timeInput);
+    scheduleWrap.append(dateField, timeField);
+
+    const syncConditional = () => {
+      declineWrap.hidden = statusSelect.value !== 'Declined';
+      scheduleWrap.hidden = statusSelect.value !== 'Accepted';
+    };
+    statusSelect.addEventListener('change', syncConditional);
+    syncConditional();
+
     const submit = document.createElement('button');
     submit.type = 'submit';
     submit.className = 'button';
     submit.textContent = 'Save update';
 
-    form.append(statusField, quoteField, noteField, submit);
+    form.append(statusField, quoteField, noteField, declineWrap, scheduleWrap, submit);
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const quoteAmount = quoteInput.value.trim() === '' ? null : Number(quoteInput.value);
@@ -180,17 +295,208 @@
         quoteInput.focus();
         return;
       }
-      store.updateRequest(request.id, {
-        status: statusSelect.value,
+      const nextStatus = statusSelect.value;
+      const updates = {
+        status: nextStatus,
         providerNote: noteInput.value.trim(),
-        quoteAmount
-      });
-      common?.showToast?.('Request updated.', 'success');
+        quoteAmount,
+        declineReason: '',
+        declineMessage: '',
+        declinedAt: null,
+        scheduledDate: null,
+        scheduledTime: ''
+      };
+
+      if (nextStatus === 'Declined') {
+        const reason = reasonSelect.value;
+        const message = messageInput.value.trim();
+        if (!reason) {
+          common?.showToast?.('Choose a reason for declining this request.', 'error');
+          reasonSelect.focus();
+          return;
+        }
+        if (reason === 'Other' && message.length < 5) {
+          common?.showToast?.('Please write a short message explaining why you are declining.', 'error');
+          messageInput.focus();
+          return;
+        }
+        updates.declineReason = reason;
+        updates.declineMessage = message;
+        updates.declinedAt = new Date().toISOString();
+      }
+
+      let clash = 0;
+      if (nextStatus === 'Accepted' || nextStatus === 'Completed') {
+        const chosen = dateInput.value || jobKey(request);
+        if (!chosen) {
+          common?.showToast?.('Choose a scheduled date.', 'error');
+          dateInput.focus();
+          return;
+        }
+        updates.scheduledDate = chosen;
+        updates.scheduledTime = timeInput.value;
+        if (nextStatus === 'Accepted') {
+          clash = scheduledJobs(currentRequests).filter(
+            (item) => item.id !== request.id && jobKey(item) === chosen && item.status === 'Accepted'
+          ).length;
+        }
+      }
+
+      store.updateRequest(request.id, updates);
+      calendar.selected = updates.scheduledDate || calendar.selected;
+      if (updates.scheduledDate) {
+        const [y, m] = updates.scheduledDate.split('-').map(Number);
+        calendar.year = y;
+        calendar.month = m - 1;
+      }
+      common?.showToast?.(
+        clash
+          ? `Request accepted. Heads up: you already have ${clash} other job${clash === 1 ? '' : 's'} on this date.`
+          : nextStatus === 'Accepted'
+            ? 'Request accepted and added to your schedule.'
+            : 'Request updated.',
+        clash ? 'info' : 'success'
+      );
       render();
     });
 
     card.append(header, details, form);
     return card;
+  };
+
+  const renderCalendar = (requests) => {
+    const grid = document.querySelector('#schedule-grid');
+    const title = document.querySelector('#schedule-month');
+    const dayPanel = document.querySelector('#schedule-day');
+    const weekdays = document.querySelector('.schedule-weekdays');
+    if (!grid || !title || !dayPanel) return;
+
+    if (weekdays && !weekdays.childElementCount) {
+      ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach((name) => {
+        const cell = document.createElement('span');
+        cell.textContent = name;
+        weekdays.append(cell);
+      });
+    }
+
+    const { year, month } = calendar;
+    title.textContent = new Intl.DateTimeFormat('en-PH', { month: 'long', year: 'numeric' }).format(
+      new Date(year, month, 1)
+    );
+
+    const jobsByDay = new Map();
+    scheduledJobs(requests).forEach((item) => {
+      const key = jobKey(item);
+      if (!jobsByDay.has(key)) jobsByDay.set(key, []);
+      jobsByDay.get(key).push(item);
+    });
+    jobsByDay.forEach((list) => list.sort(byTime));
+
+    const first = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = todayKey();
+    const cells = [];
+
+    for (let i = 0; i < first.getDay(); i += 1) {
+      const blank = document.createElement('div');
+      blank.className = 'schedule-cell is-empty';
+      blank.setAttribute('role', 'gridcell');
+      blank.setAttribute('aria-hidden', 'true');
+      cells.push(blank);
+    }
+
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const key = toKey(year, month, day);
+      const jobs = jobsByDay.get(key) || [];
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'schedule-cell';
+      cell.setAttribute('role', 'gridcell');
+      cell.dataset.date = key;
+      if (key === today) cell.classList.add('is-today');
+      if (key === calendar.selected) {
+        cell.classList.add('is-selected');
+        cell.setAttribute('aria-pressed', 'true');
+      } else {
+        cell.setAttribute('aria-pressed', 'false');
+      }
+      const label = new Intl.DateTimeFormat('en-PH', { dateStyle: 'full' }).format(
+        new Date(year, month, day)
+      );
+      cell.setAttribute(
+        'aria-label',
+        `${label}, ${jobs.length ? `${jobs.length} job${jobs.length === 1 ? '' : 's'}` : 'no jobs'}`
+      );
+
+      const num = document.createElement('span');
+      num.className = 'schedule-daynum';
+      num.textContent = String(day);
+      cell.append(num);
+
+      jobs.slice(0, 2).forEach((job) => {
+        const chip = document.createElement('span');
+        chip.className = `schedule-chip chip-${job.status.toLowerCase()}`;
+        chip.textContent = `${job.scheduledTime ? `${formatTime(job.scheduledTime)} ` : ''}${job.fullName || 'Resident'}`;
+        cell.append(chip);
+      });
+      if (jobs.length > 2) {
+        const more = document.createElement('span');
+        more.className = 'schedule-more';
+        more.textContent = `+${jobs.length - 2} more`;
+        cell.append(more);
+      }
+      if (jobs.length) {
+        const badge = document.createElement('span');
+        badge.className = 'schedule-count';
+        badge.textContent = String(jobs.length);
+        badge.setAttribute('aria-hidden', 'true');
+        cell.append(badge);
+      }
+      cells.push(cell);
+    }
+    grid.replaceChildren(...cells);
+
+    // Day panel: details of the selected date.
+    dayPanel.replaceChildren();
+    const [sy, sm, sd] = calendar.selected.split('-').map(Number);
+    const heading = document.createElement('h3');
+    heading.textContent = new Intl.DateTimeFormat('en-PH', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(new Date(sy, sm - 1, sd));
+    dayPanel.append(heading);
+
+    const dayJobs = jobsByDay.get(calendar.selected) || [];
+    if (!dayJobs.length) {
+      const none = document.createElement('p');
+      none.className = 'schedule-empty';
+      none.textContent = 'No scheduled work on this date.';
+      dayPanel.append(none);
+      return;
+    }
+    const list = document.createElement('ul');
+    list.className = 'schedule-jobs';
+    dayJobs.forEach((job) => {
+      const li = document.createElement('li');
+      li.className = `schedule-job job-${job.status.toLowerCase()}`;
+      const top = document.createElement('p');
+      top.className = 'schedule-job-title';
+      top.textContent = `${job.scheduledTime ? `${formatTime(job.scheduledTime)} · ` : ''}${job.category || 'Service'}`;
+      const who = document.createElement('p');
+      who.textContent = `${job.fullName || 'Resident'} · ${job.barangay || 'Location not given'}`;
+      const contact = document.createElement('p');
+      contact.className = 'schedule-job-meta';
+      contact.textContent = `${job.contactNumber || 'No contact number'} · ${job.status}`;
+      const desc = document.createElement('p');
+      desc.className = 'schedule-job-meta';
+      desc.textContent = job.workDescription || '';
+      li.append(top, who, contact);
+      if (job.workDescription) li.append(desc);
+      list.append(li);
+    });
+    dayPanel.append(list);
   };
 
   const render = () => {
@@ -238,6 +544,8 @@
       filter === 'all' ? requests : requests.filter((item) => item.status === filter);
 
     renderStats(requests);
+    currentRequests = requests;
+    renderCalendar(requests);
 
     const count = document.querySelector('#dashboard-count');
     if (count) {
@@ -277,6 +585,28 @@
     // Browsers restore form fields on reload; start from "All requests" so nothing looks missing.
     if (filterSelect) filterSelect.value = 'all';
     filterSelect?.addEventListener('change', render);
+    const shiftMonth = (delta) => {
+      const d = new Date(calendar.year, calendar.month + delta, 1);
+      calendar.year = d.getFullYear();
+      calendar.month = d.getMonth();
+      renderCalendar(currentRequests);
+    };
+    document.querySelector('#schedule-prev')?.addEventListener('click', () => shiftMonth(-1));
+    document.querySelector('#schedule-next')?.addEventListener('click', () => shiftMonth(1));
+    document.querySelector('#schedule-today')?.addEventListener('click', () => {
+      const t = new Date();
+      calendar.year = t.getFullYear();
+      calendar.month = t.getMonth();
+      calendar.selected = todayKey();
+      renderCalendar(currentRequests);
+    });
+    document.querySelector('#schedule-grid')?.addEventListener('click', (event) => {
+      const cell = event.target.closest('.schedule-cell[data-date]');
+      if (!cell) return;
+      calendar.selected = cell.dataset.date;
+      renderCalendar(currentRequests);
+      document.querySelector(`.schedule-cell[data-date="${calendar.selected}"]`)?.focus();
+    });
     render();
   });
 })();

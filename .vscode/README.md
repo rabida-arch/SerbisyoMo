@@ -34,6 +34,11 @@ SerbisyoMo/
 └── AI_DISCLOSURE.md
 ```
 
+## Provider features
+
+- **Decline with a reason:** when a provider marks a request *Declined* they must pick a reason (and add a message if they choose "Other"). The resident sees it on their My Requests card.
+- **Work schedule calendar:** accepted (and completed) requests appear automatically on a month calendar in the provider dashboard, on the scheduled date. Providers can adjust the date and set a start time when accepting; they get a warning if the date already has a job.
+
 ## How to run
 
 1. **File → Open Folder…** and select this `SerbisyoMo` folder.
