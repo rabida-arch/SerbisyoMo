@@ -62,23 +62,7 @@ Each member named below confirms that they reviewed, validated, and accepted the
 
 ---
 
-## 5. Guideline Reference
-
-This disclosure follows the required fields specified in the Final Project Guidelines (p. 11).
-
-| Required Field (Guidelines, p. 11) | Where It Appears in This File | Status |
-|---|---|---|
-| AI Tool Used | Section 1, Column 2 | ✅ Present |
-| Task Where AI Was Used | Section 1, Column 3 | ✅ Present |
-| Manuscript / Project Section | Section 1, Column 4 | ✅ Present |
-| Exact Prompt Used | Section 1, Column 5 | ✅ Present |
-| AI Output Used | Section 1, Column 6 | ✅ Present |
-| Validation Method | Section 1, Column 7 | ✅ Present |
-| Responsible Member | Section 1, Column 8 | ⏳ Names to be filled in |
-
----
-
-## 6. Change Log
+## 5. Change Log
 
 | Date | Change | Made By |
 |---|---|---|
