@@ -614,16 +614,31 @@
   function validateServiceRequest(fields) {
     const errors = {};
     const today = getLocalDateString();
-    if (!fields.fullName.value.trim()) errors.fullName = 'Please enter your full name.';
-    if (!/^09\d{9}$/.test(fields.contactNumber.value.trim())) {
+    const name = fields.fullName.value.trim();
+    const description = fields.workDescription.value.trim();
+    const date = fields.preferredDate.value;
+
+    if (!name) errors.fullName = 'Full name is required.';
+    else if (name.length < 2) errors.fullName = 'Please enter your full name.';
+
+    const contact = fields.contactNumber.value.trim();
+    if (!contact) errors.contactNumber = 'Contact number is required.';
+    else if (!/^09\d{9}$/.test(contact)) {
       errors.contactNumber = 'Enter an 11-digit mobile number starting with 09, like 09123456789.';
     }
-    if (!fields.category.value) errors.category = 'Please select a service category.';
-    if (!fields.workDescription.value.trim()) errors.workDescription = 'Please describe the work you need.';
-    if (!fields.barangay.value) errors.barangay = 'Please select a barangay.';
-    if (fields.preferredDate.value && fields.preferredDate.value < today) {
-      errors.preferredDate = 'Preferred date cannot be in the past.';
+
+    if (!fields.category.value) errors.category = 'Please select the type of service you need.';
+
+    if (!description) errors.workDescription = 'Please describe the work you need.';
+    else if (description.length < 10) {
+      errors.workDescription = 'Add a few more details so the provider understands the job (at least 10 characters).';
     }
+
+    if (!fields.barangay.value) errors.barangay = 'Please select your location or barangay.';
+
+    if (!date) errors.preferredDate = 'Please choose a preferred date.';
+    else if (date < today) errors.preferredDate = 'Preferred date cannot be in the past.';
+
     return errors;
   }
 
@@ -693,13 +708,12 @@
     }
 
     // Prefill from the signed-in profile so residents do not retype details.
-    if (user) {
-      if (form.elements.fullName) {
-        form.elements.fullName.value = user.name || form.elements.fullName.value || '';
-      }
-      if (form.elements.contactNumber) {
-        form.elements.contactNumber.value = user.contact || form.elements.contactNumber.value || '';
-      }
+    let profileNote = null;
+    const applyPrefill = () => {
+      if (selectedProvider) categorySelect.value = selectedProvider.category;
+      if (!user) return;
+      if (form.elements.fullName) form.elements.fullName.value = user.name || '';
+      if (form.elements.contactNumber) form.elements.contactNumber.value = user.contact || '';
       if (form.elements.barangay && user.barangay) {
         const match = [...barangaySelect.options].find(
           (option) => option.value && option.value.toLowerCase() === user.barangay.toLowerCase()
@@ -711,16 +725,17 @@
           barangaySelect.add(new Option(user.barangay, user.barangay, true, true));
         }
       }
-      const note = document.createElement('p');
-      note.className = 'request-profile-note';
-      note.innerHTML = '';
-      const text = document.createTextNode('Details filled from your profile. ');
-      const link = document.createElement('a');
-      link.href = 'account.html';
-      link.textContent = 'Edit profile';
-      note.append(text, link);
-      providerMessage.insertAdjacentElement('afterend', note);
-    }
+      if (!profileNote) {
+        profileNote = document.createElement('p');
+        profileNote.className = 'request-profile-note';
+        const link = document.createElement('a');
+        link.href = 'account.html';
+        link.textContent = 'Edit profile';
+        profileNote.append(document.createTextNode('Details filled from your profile. '), link);
+        providerMessage.insertAdjacentElement('afterend', profileNote);
+      }
+    };
+    applyPrefill();
 
     const fields = {
       fullName: form.elements.fullName,
@@ -730,6 +745,12 @@
       barangay: form.elements.barangay,
       preferredDate: form.elements.preferredDate
     };
+
+    // Keep the contact number to digits only (max 11) while typing or pasting.
+    fields.contactNumber.addEventListener('input', () => {
+      const digits = fields.contactNumber.value.replace(/\D/g, '').slice(0, 11);
+      if (digits !== fields.contactNumber.value) fields.contactNumber.value = digits;
+    });
 
     Object.values(fields).forEach((field) => {
       const clearError = () => setRequestFieldError(field, '');
@@ -793,7 +814,27 @@
       form.reset();
       preferredDate.min = getLocalDateString();
       Object.values(fields).forEach((field) => setRequestFieldError(field, ''));
+
+      // Replace the form with a clear confirmation instead of leaving a blank form behind.
+      form.hidden = true;
+      form.style.display = 'none';
+      if (profileNote) profileNote.hidden = true;
       showRequestFeedback(feedback, 'Request submitted successfully.', false, 'View My Requests');
+      const another = document.createElement('button');
+      another.type = 'button';
+      another.className = 'text-link request-another';
+      another.textContent = 'Send another request';
+      another.addEventListener('click', () => {
+        applyPrefill();
+        form.hidden = false;
+        form.style.display = '';
+        if (profileNote) profileNote.hidden = false;
+        feedback.replaceChildren();
+        feedback.className = 'request-feedback';
+        fields.workDescription.focus();
+      });
+      feedback.append(another);
+      feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
       common?.showToast?.('Request saved on this device.', 'success');
     });
   }

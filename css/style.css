@@ -2703,3 +2703,110 @@ button:active {
   margin-right: auto;
   margin-left: auto;
 }
+
+/* ---------- Provider dashboard polish ---------- */
+.dashboard-page {
+  min-height: calc(100vh - 260px);
+  padding-top: 3.5rem;
+  padding-bottom: 5rem;
+}
+
+.dashboard-page h1 {
+  margin-bottom: 0.6rem;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.035em;
+}
+
+.dashboard-page .section-heading {
+  margin-bottom: 1.75rem;
+}
+
+/* Summary card: business + email on the left, connection pill on the right. */
+.provider-summary {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.provider-summary h2,
+.provider-summary p {
+  grid-column: 1;
+}
+
+.provider-summary .connection-pill {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.dashboard-toolbar {
+  align-items: flex-end;
+}
+
+.dashboard-toolbar .auth-field {
+  min-width: min(100%, 220px);
+}
+
+.dashboard-count {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .dashboard-page {
+    padding-top: 2rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .provider-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .provider-summary .connection-pill {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 0.4rem;
+  }
+
+  .dashboard-toolbar .auth-field {
+    width: 100%;
+  }
+
+  .dashboard-count {
+    margin-bottom: 0;
+  }
+}
+
+/* ---------- Request form: required fields + confirmation ---------- */
+.required-note {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.required-mark {
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.request-feedback a.button {
+  color: var(--navy);
+}
+
+.request-feedback .request-another {
+  display: inline-block;
+  margin: 0.75rem 0 0 1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.request-feedback.is-error {
+  border: 1px solid var(--danger);
+}

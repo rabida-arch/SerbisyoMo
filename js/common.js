@@ -178,14 +178,14 @@
 
   const updateConnection = () => {
     const online = navigator.onLine;
-    document.querySelectorAll('#connection-status, .user-status-dot').forEach((el) => {
+    document.querySelectorAll('#connection-status, .user-status-dot, [data-connection-pill]').forEach((el) => {
       if (!el) return;
       el.classList.toggle('online', online);
       el.classList.toggle('offline', !online);
       el.setAttribute('aria-label', online ? 'Online' : 'Offline');
       // Keep pill text only if it is still used somewhere as a text pill.
       if (el.classList.contains('connection-pill') && !el.classList.contains('user-status-dot')) {
-        el.textContent = online ? 'Online' : 'Offline';
+        el.textContent = online ? 'Online' : 'Offline — data stays on this device';
       }
     });
   };

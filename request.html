@@ -55,22 +55,23 @@
       <p class="request-provider" id="request-provider"></p>
       <div class="request-feedback" id="request-feedback" role="status" aria-live="polite"></div>
       <form id="service-request-form" novalidate>
+        <p class="required-note"><span class="required-mark" aria-hidden="true">*</span> All fields are required.</p>
         <div class="request-fields">
           <div class="request-field">
-            <label for="requester-name">Full name</label>
-            <input id="requester-name" name="fullName" type="text" autocomplete="name" required aria-describedby="requester-name-error">
+            <label for="requester-name">Full name <span class="required-mark" aria-hidden="true">*</span></label>
+            <input id="requester-name" name="fullName" type="text" autocomplete="name" required aria-required="true" aria-describedby="requester-name-error">
             <p class="field-error" id="requester-name-error"></p>
           </div>
 
           <div class="request-field">
-            <label for="requester-contact">Contact number</label>
-            <input id="requester-contact" name="contactNumber" type="tel" inputmode="numeric" autocomplete="tel" maxlength="11" pattern="09[0-9]{9}" placeholder="e.g. 09123456789" required aria-describedby="requester-contact-error">
+            <label for="requester-contact">Contact number <span class="required-mark" aria-hidden="true">*</span></label>
+            <input id="requester-contact" name="contactNumber" type="tel" inputmode="numeric" autocomplete="tel" pattern="09[0-9]{9}" placeholder="e.g. 09123456789" required aria-required="true" aria-describedby="requester-contact-error">
             <p class="field-error" id="requester-contact-error"></p>
           </div>
 
           <div class="request-field">
-            <label for="service-category">Type of service needed</label>
-            <select id="service-category" name="category" required aria-describedby="service-category-error">
+            <label for="service-category">Type of service needed <span class="required-mark" aria-hidden="true">*</span></label>
+            <select id="service-category" name="category" required aria-required="true" aria-describedby="service-category-error">
               <option value="">Select a service</option>
               <option value="Plumbing">Plumbing</option>
               <option value="Electrical">Electrical</option>
@@ -95,22 +96,22 @@
           </div>
 
           <div class="request-field request-field-wide">
-            <label for="work-description">Description of the work needed</label>
-            <textarea id="work-description" name="workDescription" rows="5" required aria-describedby="work-description-error"></textarea>
+            <label for="work-description">Description of the work needed <span class="required-mark" aria-hidden="true">*</span></label>
+            <textarea id="work-description" name="workDescription" rows="5" required aria-required="true" aria-describedby="work-description-error"></textarea>
             <p class="field-error" id="work-description-error"></p>
           </div>
 
           <div class="request-field">
-            <label for="requester-barangay">Location or barangay</label>
-            <select id="requester-barangay" name="barangay" required aria-describedby="requester-barangay-error">
+            <label for="requester-barangay">Location or barangay <span class="required-mark" aria-hidden="true">*</span></label>
+            <select id="requester-barangay" name="barangay" required aria-required="true" aria-describedby="requester-barangay-error">
               <option value="">Select a barangay</option>
             </select>
             <p class="field-error" id="requester-barangay-error"></p>
           </div>
 
           <div class="request-field">
-            <label for="preferred-date">Preferred date</label>
-            <input id="preferred-date" name="preferredDate" type="date" required aria-describedby="preferred-date-error">
+            <label for="preferred-date">Preferred date <span class="required-mark" aria-hidden="true">*</span></label>
+            <input id="preferred-date" name="preferredDate" type="date" required aria-required="true" aria-describedby="preferred-date-error">
             <p class="field-error" id="preferred-date-error"></p>
           </div>
         </div>

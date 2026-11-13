@@ -169,12 +169,22 @@
     form.append(statusField, quoteField, noteField, submit);
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const updates = {
+      const quoteAmount = quoteInput.value.trim() === '' ? null : Number(quoteInput.value);
+      if (quoteAmount !== null && (!Number.isFinite(quoteAmount) || quoteAmount < 0)) {
+        common?.showToast?.('Enter a valid quote amount (0 or more).', 'error');
+        quoteInput.focus();
+        return;
+      }
+      if (statusSelect.value === 'Quoted' && quoteAmount === null) {
+        common?.showToast?.('Add a quote amount before marking this request as Quoted.', 'error');
+        quoteInput.focus();
+        return;
+      }
+      store.updateRequest(request.id, {
         status: statusSelect.value,
         providerNote: noteInput.value.trim(),
-        quoteAmount: quoteInput.value === '' ? null : Number(quoteInput.value)
-      };
-      store.updateRequest(request.id, updates);
+        quoteAmount
+      });
       common?.showToast?.('Request updated.', 'success');
       render();
     });
@@ -197,11 +207,10 @@
       const heading = document.createElement('h2');
       heading.textContent = user.businessName || user.name;
       const meta = document.createElement('p');
-      meta.textContent = user.providerId
-        ? `Linked demo provider #${user.providerId} · ${user.email}`
-        : `Provider account · ${user.email}`;
+      meta.textContent = `Provider account · ${user.email}`;
+      // Not an id: the header avatar dot already owns #connection-status.
       const connection = document.createElement('span');
-      connection.id = 'connection-status';
+      connection.dataset.connectionPill = '';
       connection.className = 'connection-pill';
       connection.textContent = navigator.onLine ? 'Online' : 'Offline — data stays on this device';
       connection.classList.toggle('online', navigator.onLine);
@@ -209,19 +218,19 @@
       profileBox.append(heading, meta, connection);
     }
 
+    const byNewest = (a, b) => new Date(b.submittedAt) - new Date(a.submittedAt);
     let requests = [];
     if (user.providerId) {
       requests = store.getRequestsForProvider(user.providerId);
     } else {
       // Unlinked provider accounts still see requests addressed to their business name.
-      requests = store
-        .getRequests()
-        .filter(
-          (item) =>
-            item.providerName &&
-            user.businessName &&
-            item.providerName.toLowerCase() === user.businessName.toLowerCase()
-        );
+      const business = (user.businessName || '').trim().toLowerCase();
+      requests = business
+        ? store
+            .getRequests()
+            .filter((item) => (item.providerName || '').trim().toLowerCase() === business)
+            .sort(byNewest)
+        : [];
     }
 
     const filter = document.querySelector('#status-filter')?.value || 'all';
@@ -230,13 +239,26 @@
 
     renderStats(requests);
 
+    const count = document.querySelector('#dashboard-count');
+    if (count) {
+      count.textContent = requests.length
+        ? `Showing ${visible.length} of ${requests.length} request${requests.length === 1 ? '' : 's'}`
+        : '';
+    }
+
     if (!visible.length) {
       list.replaceChildren();
       if (empty) {
+        const title = document.querySelector('#provider-empty-title');
+        const text = document.querySelector('#provider-empty-text');
+        const hasRequests = requests.length > 0;
+        if (title) title.textContent = hasRequests ? 'No matching requests' : 'No requests yet';
+        if (text) {
+          text.textContent = hasRequests
+            ? `You have no ${filter.toLowerCase()} requests right now. Try another status or choose "All requests".`
+            : 'No requests for your listing yet. Residents can send one from a provider profile.';
+        }
         empty.hidden = false;
-        empty.querySelector('p').textContent = requests.length
-          ? 'No requests match this status filter.'
-          : 'No requests for your listing yet. Residents can send one from a provider profile.';
       }
       return;
     }
@@ -251,7 +273,10 @@
       window.location.href = 'login.html?next=provider-dashboard.html';
       return;
     }
-    document.querySelector('#status-filter')?.addEventListener('change', render);
+    const filterSelect = document.querySelector('#status-filter');
+    // Browsers restore form fields on reload; start from "All requests" so nothing looks missing.
+    if (filterSelect) filterSelect.value = 'all';
+    filterSelect?.addEventListener('change', render);
     render();
   });
 })();

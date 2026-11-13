@@ -20,17 +20,12 @@
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header">
-    <nav class="navbar" aria-label="Main navigation">
-      <a class="brand" href="index.html" translate="no">SerbisyoMo</a>
-      <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
-        <span></span><span></span><span></span>
-      </button>
+    <!-- Provider workspace navigation: provider tools only, no resident links (Home / Providers). -->
+    <nav class="navbar" aria-label="Provider navigation">
+      <a class="brand" href="provider-dashboard.html" translate="no">SerbisyoMo</a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="providers.html">Providers</a></li>
         <li><a href="provider-dashboard.html" aria-current="page">Dashboard</a></li>
-        <li data-auth-slot><a href="login.html">Log in</a></li>
-        <li data-auth-signup><a class="nav-signup" href="signup.html">Sign up</a></li>
+        <li data-auth-slot><a href="login.html?next=provider-dashboard.html">Log in</a></li>
       </ul>
     </nav>
   </header>
@@ -49,8 +44,8 @@
     <div class="dashboard-toolbar">
       <div class="auth-field">
         <label for="status-filter">Filter by status</label>
-        <select id="status-filter">
-          <option value="all">All requests</option>
+        <select id="status-filter" autocomplete="off">
+          <option value="all" selected>All requests</option>
           <option value="Pending">Pending</option>
           <option value="Quoted">Quoted</option>
           <option value="Accepted">Accepted</option>
@@ -59,18 +54,19 @@
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
+      <p id="dashboard-count" class="dashboard-count" aria-live="polite"></p>
     </div>
 
     <div id="provider-empty" class="requests-empty-state" hidden>
-      <h2>No matching requests</h2>
-      <p>No requests for your listing yet.</p>
+      <h2 id="provider-empty-title">No requests yet</h2>
+      <p id="provider-empty-text">No requests for your listing yet.</p>
     </div>
     <div id="provider-requests" class="requests-list" aria-live="polite"></div>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <a class="footer-brand" href="index.html" translate="no">SerbisyoMo</a>
+      <a class="footer-brand" href="provider-dashboard.html" translate="no">SerbisyoMo</a>
       <p>Boac Local Service Finder: connecting residents with local home service providers.</p>
       <p class="copyright">&copy;&nbsp;2026 <span translate="no">SerbisyoMo</span></p>
     </div>
