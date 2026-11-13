@@ -1437,7 +1437,7 @@ button:active {
 }
 
 .auth-top-link {
-  color: var(--deep-teal);
+  color: #fff;
   font-weight: 600;
   text-decoration: none;
 }
