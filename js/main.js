@@ -363,6 +363,19 @@
     const comment = document.createElement('p');
     comment.textContent = review.comment || '';
     card.append(header, comment);
+
+    if (review.photo) {
+      const photoWrap = document.createElement('div');
+      photoWrap.className = 'review-photo-wrap';
+      const photo = document.createElement('img');
+      photo.className = 'review-photo';
+      photo.src = review.photo;
+      photo.alt = 'Photo attached to feedback';
+      photo.loading = 'lazy';
+      photoWrap.append(photo);
+      card.append(photoWrap);
+    }
+
     return card;
   }
 
@@ -419,6 +432,74 @@
     commentInput.placeholder = 'What went well? What could improve?';
     commentField.append(commentLabel, commentInput);
 
+    // Optional photo upload for feedback
+    const photoField = document.createElement('div');
+    photoField.className = 'auth-field feedback-photo-field';
+    const photoLabel = document.createElement('label');
+    photoLabel.htmlFor = `feedback-photo-${fieldId}`;
+    photoLabel.textContent = 'Photo (optional)';
+    const photoHint = document.createElement('p');
+    photoHint.className = 'field-hint';
+    photoHint.textContent = 'Add a picture of the completed work (JPEG, PNG, or WebP, max 2 MB).';
+    const photoInput = document.createElement('input');
+    photoInput.type = 'file';
+    photoInput.id = `feedback-photo-${fieldId}`;
+    photoInput.name = 'photo';
+    photoInput.accept = 'image/jpeg,image/png,image/webp,image/gif';
+    const photoPreview = document.createElement('div');
+    photoPreview.className = 'feedback-photo-preview';
+    photoPreview.hidden = true;
+    const previewImg = document.createElement('img');
+    previewImg.alt = 'Selected photo preview';
+    const clearPhotoBtn = document.createElement('button');
+    clearPhotoBtn.type = 'button';
+    clearPhotoBtn.className = 'button button-secondary button-small';
+    clearPhotoBtn.textContent = 'Remove photo';
+    photoPreview.append(previewImg, clearPhotoBtn);
+    photoField.append(photoLabel, photoHint, photoInput, photoPreview);
+
+    let selectedPhotoDataUrl = null;
+
+    const clearSelectedPhoto = () => {
+      selectedPhotoDataUrl = null;
+      photoInput.value = '';
+      previewImg.removeAttribute('src');
+      photoPreview.hidden = true;
+    };
+
+    clearPhotoBtn.addEventListener('click', clearSelectedPhoto);
+
+    photoInput.addEventListener('change', () => {
+      const file = photoInput.files && photoInput.files[0];
+      if (!file) {
+        clearSelectedPhoto();
+        return;
+      }
+      const maxBytes = 2 * 1024 * 1024;
+      if (file.size > maxBytes) {
+        error.textContent = 'Photo is too large. Please choose an image under 2 MB.';
+        clearSelectedPhoto();
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        error.textContent = 'Please choose an image file.';
+        clearSelectedPhoto();
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        selectedPhotoDataUrl = reader.result;
+        previewImg.src = selectedPhotoDataUrl;
+        photoPreview.hidden = false;
+        error.textContent = '';
+      };
+      reader.onerror = () => {
+        error.textContent = 'Could not read that image. Try another file.';
+        clearSelectedPhoto();
+      };
+      reader.readAsDataURL(file);
+    });
+
     const error = document.createElement('p');
     error.className = 'field-error';
     error.setAttribute('role', 'alert');
@@ -428,7 +509,7 @@
     submit.className = 'button';
     submit.textContent = 'Submit feedback';
 
-    form.append(ratingField, commentField, error, submit);
+    form.append(ratingField, commentField, photoField, error, submit);
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       error.textContent = '';
@@ -441,6 +522,9 @@
           userId: user.id,
           requestId: serviceRequest.id
         };
+        if (selectedPhotoDataUrl) {
+          entry.photo = selectedPhotoDataUrl;
+        }
         if (!entry.comment || entry.comment.length < 5) {
           throw new Error('Please write a short comment (at least 5 characters).');
         }
@@ -1175,7 +1259,49 @@
     }
   }
 
+  function initializeHomePage() {
+    const btn = document.getElementById('see-all-categories');
+    const grid = document.querySelector('.service-grid');
+    if (!btn || !grid) return;
+
+    // Start with first 12 cards visible; hide the rest until "See all"
+    const cards = Array.from(grid.querySelectorAll('.service-card'));
+    const INITIAL = 12;
+    if (cards.length <= INITIAL) {
+      btn.hidden = true;
+      return;
+    }
+
+    const collapse = () => {
+      cards.forEach((card, i) => {
+        card.hidden = i >= INITIAL;
+      });
+      btn.textContent = 'See all';
+      btn.setAttribute('aria-expanded', 'false');
+      grid.classList.remove('is-expanded');
+    };
+
+    const expand = () => {
+      cards.forEach((card) => {
+        card.hidden = false;
+      });
+      btn.textContent = 'Show less';
+      btn.setAttribute('aria-expanded', 'true');
+      grid.classList.add('is-expanded');
+    };
+
+    collapse();
+    btn.addEventListener('click', () => {
+      if (btn.getAttribute('aria-expanded') === 'true') {
+        collapse();
+      } else {
+        expand();
+      }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    initializeHomePage();
     initializeProviderDirectory();
     initializeProviderProfile();
     initializeServiceRequestForm();
