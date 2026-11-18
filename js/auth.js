@@ -156,6 +156,10 @@
     if (String(password || '').length < 6) {
       throw new Error('Password must be at least 6 characters.');
     }
+    const contact = String(payload.contact || '').trim();
+    if (contact && !/^09\d{9}$/.test(contact)) {
+      throw new Error('Enter an 11-digit mobile number starting with 09, like 09123456789.');
+    }
     const role = payload.role === 'provider' ? 'provider' : 'resident';
     if (role === 'provider' && !payload.businessName?.trim()) {
       throw new Error('Please enter your business or trade name.');
@@ -166,7 +170,7 @@
       role,
       name: String(payload.name).trim(),
       email,
-      contact: String(payload.contact || '').trim(),
+      contact,
       barangay: String(payload.barangay || '').trim(),
       providerId: role === 'provider' && payload.providerId ? Number(payload.providerId) : null,
       businessName: role === 'provider' ? String(payload.businessName).trim() : '',

@@ -59,12 +59,75 @@
 
         <div class="auth-field">
           <label for="register-contact">Mobile number</label>
-          <input id="register-contact" name="contact" type="tel" inputmode="tel" autocomplete="tel" placeholder="09123456789">
+          <input id="register-contact" name="contact" type="tel" inputmode="numeric" autocomplete="tel" placeholder="09123456789" maxlength="11" pattern="09[0-9]{9}" title="11-digit mobile number starting with 09">
         </div>
 
         <div class="auth-field">
           <label for="register-barangay">Barangay</label>
-          <input id="register-barangay" name="barangay" type="text" placeholder="e.g. Tanza">
+          <select id="register-barangay" name="barangay">
+            <option value="">Select barangay</option>
+            <option value="Agot">Agot</option>
+            <option value="Agumaymayan">Agumaymayan</option>
+            <option value="Amoingon">Amoingon</option>
+            <option value="Apitong">Apitong</option>
+            <option value="Balagasan">Balagasan</option>
+            <option value="Balaring">Balaring</option>
+            <option value="Balimbing">Balimbing</option>
+            <option value="Balogo">Balogo</option>
+            <option value="Bamban">Bamban</option>
+            <option value="Bangbangalon">Bangbangalon</option>
+            <option value="Bantad">Bantad</option>
+            <option value="Bantay">Bantay</option>
+            <option value="Bayuti">Bayuti</option>
+            <option value="Binunga">Binunga</option>
+            <option value="Boi">Boi</option>
+            <option value="Boton">Boton</option>
+            <option value="Buliasnin">Buliasnin</option>
+            <option value="Bunganay">Bunganay</option>
+            <option value="Caganhao">Caganhao</option>
+            <option value="Canat">Canat</option>
+            <option value="Catubugan">Catubugan</option>
+            <option value="Cawit">Cawit</option>
+            <option value="Daig">Daig</option>
+            <option value="Daypay">Daypay</option>
+            <option value="Duyay">Duyay</option>
+            <option value="Hinapulan">Hinapulan</option>
+            <option value="Ihatub">Ihatub</option>
+            <option value="Isok I">Isok I</option>
+            <option value="Isok II">Isok II</option>
+            <option value="Laylay">Laylay</option>
+            <option value="Lupac">Lupac</option>
+            <option value="Mahinhin">Mahinhin</option>
+            <option value="Mainit">Mainit</option>
+            <option value="Malbog">Malbog</option>
+            <option value="Maligaya">Maligaya</option>
+            <option value="Malusak">Malusak</option>
+            <option value="Mansiwat">Mansiwat</option>
+            <option value="Mataas na Bayan">Mataas na Bayan</option>
+            <option value="Maybo">Maybo</option>
+            <option value="Mercado">Mercado</option>
+            <option value="Murallon">Murallon</option>
+            <option value="Ogbac">Ogbac</option>
+            <option value="Pawa">Pawa</option>
+            <option value="Pili">Pili</option>
+            <option value="Poctoy">Poctoy</option>
+            <option value="Poras">Poras</option>
+            <option value="Puting Buhangin">Puting Buhangin</option>
+            <option value="Puyog">Puyog</option>
+            <option value="Sabong">Sabong</option>
+            <option value="San Miguel">San Miguel</option>
+            <option value="Santol">Santol</option>
+            <option value="Sawi">Sawi</option>
+            <option value="Tabi">Tabi</option>
+            <option value="Tabigue">Tabigue</option>
+            <option value="Tagwak">Tagwak</option>
+            <option value="Tambunan">Tambunan</option>
+            <option value="Tampus">Tampus</option>
+            <option value="Tanza">Tanza</option>
+            <option value="Tugos">Tugos</option>
+            <option value="Tumagabok">Tumagabok</option>
+            <option value="Tumapon">Tumapon</option>
+          </select>
         </div>
 
         <div class="auth-field" data-role-fields="provider" hidden>

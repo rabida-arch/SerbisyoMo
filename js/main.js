@@ -702,7 +702,12 @@
       errors.contactNumber = 'Enter an 11-digit mobile number starting with 09, like 09123456789.';
     }
 
-    if (!fields.category.value) errors.category = 'Please select the type of service you need.';
+    if (!fields.category.value && !fields.category.disabled) {
+      errors.category = 'Please select the type of service you need.';
+    } else if (!fields.category.value && fields.category.disabled) {
+      // Locked to a provider but value missing (edge case) — treat as error.
+      errors.category = 'Service type could not be determined from the selected provider.';
+    }
 
     if (!description) errors.workDescription = 'Please describe the work you need.';
     else if (description.length < 10) {
@@ -774,7 +779,16 @@
 
     if (selectedProvider) {
       providerMessage.textContent = `Requesting service from ${selectedProvider.name}`;
+      // Lock the category to the provider's service type — no free selection.
       categorySelect.value = selectedProvider.category;
+      categorySelect.disabled = true;
+      categorySelect.setAttribute('aria-disabled', 'true');
+      categorySelect.classList.add('is-locked');
+      // Ensure the locked value is still submitted / read correctly.
+      const lockedNote = document.createElement('p');
+      lockedNote.className = 'request-locked-note';
+      lockedNote.textContent = 'Service type is set by the provider you selected.';
+      categorySelect.parentElement.append(lockedNote);
     } else if (providerId) {
       providerMessage.textContent =
         'The selected provider could not be found. You can still send a general service request.';
@@ -785,7 +799,10 @@
     // Prefill from the signed-in profile so residents do not retype details.
     let profileNote = null;
     const applyPrefill = () => {
-      if (selectedProvider) categorySelect.value = selectedProvider.category;
+      if (selectedProvider) {
+        categorySelect.value = selectedProvider.category;
+        categorySelect.disabled = true;
+      }
       if (!user) return;
       if (form.elements.fullName) form.elements.fullName.value = user.name || '';
       if (form.elements.contactNumber) form.elements.contactNumber.value = user.contact || '';
@@ -936,6 +953,41 @@
 
       try {
         store.addRequest(serviceRequest);
+        // Notify provider accounts that own this listing (by linked providerId,
+        // then by matching business / listing name if none are linked).
+        try {
+          const recipientMap = new Map();
+          if (serviceRequest.providerId != null && typeof store.getProviderUsersForListing === 'function') {
+            store.getProviderUsersForListing(serviceRequest.providerId).forEach((u) => {
+              if (u?.id) recipientMap.set(String(u.id), u);
+            });
+          }
+          if (recipientMap.size === 0 && serviceRequest.providerName) {
+            const targetName = String(serviceRequest.providerName).trim().toLowerCase();
+            (store.getUsers?.() || []).forEach((u) => {
+              if (!u || u.role !== 'provider' || !u.id) return;
+              const business = String(u.businessName || '').trim().toLowerCase();
+              const name = String(u.name || '').trim().toLowerCase();
+              if (targetName && (business === targetName || name === targetName)) {
+                recipientMap.set(String(u.id), u);
+              }
+            });
+          }
+          const residentName = serviceRequest.fullName || currentUser.name || 'A resident';
+          const categoryLabel = serviceRequest.category || 'a service';
+          recipientMap.forEach((providerUser) => {
+            store.addNotification({
+              userId: providerUser.id,
+              type: 'new_request',
+              title: 'New service request',
+              body: `${residentName} requested ${categoryLabel} in ${serviceRequest.barangay || 'Boac'}.`,
+              requestId: serviceRequest.id,
+              href: 'provider-dashboard.html'
+            });
+          });
+        } catch (notifyError) {
+          console.error('Could not create provider notification.', notifyError);
+        }
       } catch (error) {
         console.error('Could not save the service request.', error);
         showRequestFeedback(
@@ -954,6 +1006,11 @@
       renderPhotoPreviews();
       preferredDate.min = getLocalDateString();
       Object.values(fields).forEach((field) => setRequestFieldError(field, ''));
+      // Re-apply locked category after reset (disabled fields can lose value on reset in some browsers).
+      if (selectedProvider) {
+        categorySelect.value = selectedProvider.category;
+        categorySelect.disabled = true;
+      }
 
       // Replace the form with a clear confirmation instead of leaving a blank form behind.
       form.hidden = true;

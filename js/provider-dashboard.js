@@ -180,12 +180,70 @@
         quoteInput.focus();
         return;
       }
+      const nextStatus = statusSelect.value;
+      const previousStatus = statuses.includes(request.status) ? request.status : 'Pending';
+      const previousQuote =
+        request.quoteAmount == null || request.quoteAmount === ''
+          ? null
+          : Number(request.quoteAmount);
+      const nextNote = noteInput.value.trim();
+      const previousNote = String(request.providerNote || '').trim();
+      const statusChanged = nextStatus !== previousStatus;
+      const quoteChanged =
+        (previousQuote == null && quoteAmount != null) ||
+        (previousQuote != null && quoteAmount == null) ||
+        (previousQuote != null && quoteAmount != null && previousQuote !== quoteAmount);
+      const noteChanged = nextNote !== previousNote;
+
       store.updateRequest(request.id, {
-        status: statusSelect.value,
-        providerNote: noteInput.value.trim(),
+        status: nextStatus,
+        providerNote: nextNote,
         quoteAmount
       });
-      common?.showToast?.('Request updated.', 'success');
+
+      // Notify the resident only when something they care about actually changed.
+      if (request.userId && (statusChanged || quoteChanged)) {
+        try {
+          const currentProvider = auth?.currentUser?.() || null;
+          const providerLabel =
+            (currentProvider && (currentProvider.businessName || currentProvider.name)) ||
+            request.providerName ||
+            'Your provider';
+          let body = `${providerLabel} updated your request to “${nextStatus}”.`;
+          if (quoteChanged && quoteAmount != null) {
+            body = `${providerLabel} sent a quote of ₱${Number(quoteAmount).toLocaleString('en-PH')} for your request.`;
+            if (statusChanged && nextStatus !== 'Quoted') {
+              body = `${providerLabel} updated your request to “${nextStatus}” with a quote of ₱${Number(quoteAmount).toLocaleString('en-PH')}.`;
+            }
+          } else if (nextStatus === 'Accepted') {
+            body = `${providerLabel} accepted your request.`;
+          } else if (nextStatus === 'Declined') {
+            body = `${providerLabel} declined your request.`;
+          } else if (nextStatus === 'Completed') {
+            body = `${providerLabel} marked your request as completed.`;
+          } else if (nextStatus === 'Cancelled') {
+            body = `${providerLabel} cancelled your request.`;
+          } else if (nextStatus === 'Quoted' && quoteAmount != null) {
+            body = `${providerLabel} sent a quote of ₱${Number(quoteAmount).toLocaleString('en-PH')} for your request.`;
+          }
+          store.addNotification({
+            userId: request.userId,
+            type: 'status_update',
+            title: 'Request update',
+            body,
+            requestId: request.id,
+            href: 'requests.html'
+          });
+        } catch (notifyError) {
+          console.error('Could not create resident notification.', notifyError);
+        }
+      }
+
+      if (!statusChanged && !quoteChanged && !noteChanged) {
+        common?.showToast?.('No changes to save.', 'info');
+      } else {
+        common?.showToast?.('Request updated.', 'success');
+      }
       render();
     });
 

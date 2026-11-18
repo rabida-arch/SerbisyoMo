@@ -9,6 +9,7 @@
     requests: 'serbisyomo_requests_v2',
     feedback: 'serbisyomo_feedback_v2',
     favorites: 'serbisyomo_favorites_v2',
+    notifications: 'serbisyomo_notifications_v1',
     legacyRequests: 'serviceRequests',
     legacyUsers: 'serbisyomoUsers',
     legacySession: 'serbisyomoSession',
@@ -185,6 +186,93 @@
   const isFavorite = (userId, providerId) =>
     getFavorites(userId).includes(String(providerId));
 
+  // ---------- Notifications ----------
+  // Each notification is scoped to a single userId (recipient).
+  // Shape: { id, userId, type, title, body, requestId, href, read, createdAt }
+
+  const getAllNotifications = () => {
+    const list = read(KEYS.notifications, []);
+    return Array.isArray(list) ? list : [];
+  };
+
+  const saveAllNotifications = (list) => write(KEYS.notifications, Array.isArray(list) ? list : []);
+
+  const getNotificationsForUser = (userId) => {
+    if (!userId) return [];
+    const target = String(userId);
+    return getAllNotifications()
+      .filter((item) => item && String(item.userId) === target)
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+  };
+
+  const getUnreadNotificationCount = (userId) =>
+    getNotificationsForUser(userId).filter((item) => !item.read).length;
+
+  const addNotification = ({ userId, type, title, body, requestId = null, href = '' }) => {
+    if (!userId || !title) return null;
+    const notification = {
+      id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      userId: String(userId),
+      type: String(type || 'info'),
+      title: String(title).trim(),
+      body: String(body || '').trim(),
+      requestId: requestId != null ? String(requestId) : null,
+      href: String(href || ''),
+      read: false,
+      createdAt: new Date().toISOString()
+    };
+    const list = getAllNotifications();
+    list.unshift(notification);
+    // Keep storage bounded (latest 200 across all users).
+    saveAllNotifications(list.slice(0, 200));
+    return notification;
+  };
+
+  const markNotificationRead = (userId, notificationId) => {
+    if (!userId || !notificationId) return false;
+    const list = getAllNotifications();
+    let changed = false;
+    const targetUser = String(userId);
+    const targetId = String(notificationId);
+    for (const item of list) {
+      if (item && String(item.userId) === targetUser && String(item.id) === targetId && !item.read) {
+        item.read = true;
+        changed = true;
+        break;
+      }
+    }
+    if (changed) saveAllNotifications(list);
+    return changed;
+  };
+
+  const markAllNotificationsRead = (userId) => {
+    if (!userId) return 0;
+    const list = getAllNotifications();
+    const targetUser = String(userId);
+    let count = 0;
+    for (const item of list) {
+      if (item && String(item.userId) === targetUser && !item.read) {
+        item.read = true;
+        count += 1;
+      }
+    }
+    if (count) saveAllNotifications(list);
+    return count;
+  };
+
+  /** Find provider accounts linked to a demo listing id. */
+  const getProviderUsersForListing = (providerId) => {
+    if (providerId == null || providerId === '') return [];
+    const target = String(providerId);
+    return getUsers().filter(
+      (user) =>
+        user &&
+        user.role === 'provider' &&
+        user.providerId != null &&
+        String(user.providerId) === target
+    );
+  };
+
   window.SerbisyoStore = {
     KEYS,
     read,
@@ -205,6 +293,12 @@
     addFeedback,
     getFavorites,
     toggleFavorite,
-    isFavorite
+    isFavorite,
+    getNotificationsForUser,
+    getUnreadNotificationCount,
+    addNotification,
+    markNotificationRead,
+    markAllNotificationsRead,
+    getProviderUsersForListing
   };
 })();
