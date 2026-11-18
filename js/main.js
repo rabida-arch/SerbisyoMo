@@ -821,6 +821,65 @@
       preferredDate: form.elements.preferredDate
     };
 
+    // Optional photos of the problem, kept as compressed data URLs.
+    const photoInput = form.querySelector('#request-photos');
+    const photoPreviews = form.querySelector('#photo-previews');
+    const photoError = form.querySelector('#request-photos-error');
+    const photoPicker = form.querySelector('#photo-picker');
+    const maxPhotos = common?.PHOTO_MAX_COUNT || 3;
+    let photos = [];
+
+    const renderPhotoPreviews = () => {
+      photoPreviews.replaceChildren(
+        ...photos.map((src, index) => {
+          const item = document.createElement('li');
+          item.className = 'photo-preview';
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `Selected photo ${index + 1}`;
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'photo-remove';
+          remove.setAttribute('aria-label', `Remove photo ${index + 1}`);
+          remove.textContent = '\u00D7';
+          remove.addEventListener('click', () => {
+            photos.splice(index, 1);
+            photoError.textContent = '';
+            renderPhotoPreviews();
+          });
+          item.append(img, remove);
+          return item;
+        })
+      );
+      const full = photos.length >= maxPhotos;
+      photoInput.disabled = full;
+      photoPicker.classList.toggle('is-disabled', full);
+      const label = photoPicker.querySelector('strong');
+      if (label) label.textContent = full ? `Maximum of ${maxPhotos} photos added` : photos.length ? 'Add another photo' : 'Add photos';
+    };
+
+    photoInput.addEventListener('change', async () => {
+      const chosen = [...photoInput.files];
+      photoInput.value = '';
+      if (!chosen.length) return;
+      photoError.textContent = '';
+      const room = maxPhotos - photos.length;
+      const problems = [];
+      if (chosen.length > room) problems.push(`You can attach up to ${maxPhotos} photos.`);
+      photoPicker.classList.add('is-busy');
+      for (const file of chosen.slice(0, Math.max(room, 0))) {
+        try {
+          photos.push(await common.compressPhoto(file));
+        } catch (error) {
+          problems.push(`${file.name}: ${error.message}`);
+        }
+      }
+      photoPicker.classList.remove('is-busy');
+      photoError.textContent = problems.join(' ');
+      renderPhotoPreviews();
+    });
+    renderPhotoPreviews();
+
     // Keep the contact number to digits only (max 11) while typing or pasting.
     fields.contactNumber.addEventListener('input', () => {
       const digits = fields.contactNumber.value.replace(/\D/g, '').slice(0, 11);
@@ -867,6 +926,7 @@
         workDescription: fields.workDescription.value.trim(),
         barangay: fields.barangay.value,
         preferredDate: fields.preferredDate.value,
+        photos: [...photos],
         status: 'Pending',
         providerNote: '',
         quoteAmount: null,
@@ -880,13 +940,18 @@
         console.error('Could not save the service request.', error);
         showRequestFeedback(
           feedback,
-          "We couldn't save your request on this device. Please check browser storage and try again.",
+          photos.length
+            ? "We couldn't save your request. The photos may be too large for this device's storage. Try removing a photo and submit again."
+            : "We couldn't save your request on this device. Please check browser storage and try again.",
           true
         );
         return;
       }
 
       form.reset();
+      photos = [];
+      photoError.textContent = '';
+      renderPhotoPreviews();
       preferredDate.min = getLocalDateString();
       Object.values(fields).forEach((field) => setRequestFieldError(field, ''));
 
@@ -976,6 +1041,8 @@
       details.append(createProviderDetail('Provider note', serviceRequest.providerNote));
     }
 
+    const photoGallery = common?.createPhotoGallery?.(serviceRequest.photos, 'Your photos');
+
     const actions = document.createElement('div');
     actions.className = 'request-history-actions';
     if (statusValue === 'Pending') {
@@ -987,7 +1054,9 @@
       actions.append(cancelButton);
     }
 
-    card.append(header, details, actions);
+    card.append(header, details);
+    if (photoGallery) card.append(photoGallery);
+    card.append(actions);
 
     if (statusValue === 'Completed' && serviceRequest.providerId) {
       const alreadyRated =

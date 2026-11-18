@@ -189,7 +189,10 @@
       render();
     });
 
-    card.append(header, details, form);
+    const gallery = common?.createPhotoGallery?.(request.photos, 'Photos from the resident');
+    card.append(header, details);
+    if (gallery) card.append(gallery);
+    card.append(form);
     return card;
   };
 

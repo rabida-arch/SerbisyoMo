@@ -243,8 +243,113 @@
     }
   });
 
+
+  // ---------- Request photos ----------
+  // Photos are shrunk in the browser and stored as small JPEG data URLs so they
+  // fit inside localStorage together with the rest of the request.
+  const PHOTO_MAX_COUNT = 3;
+  const PHOTO_MAX_FILE_BYTES = 15 * 1024 * 1024; // reject huge originals before decoding
+  const PHOTO_MAX_EDGE = 1024;
+  const PHOTO_QUALITY = 0.72;
+
+  const loadImageFromFile = (file) =>
+    new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(img);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('Could not read this image.'));
+      };
+      img.src = url;
+    });
+
+  const compressPhoto = async (file) => {
+    if (!file.type.startsWith('image/')) throw new Error('Only image files can be attached.');
+    if (file.size > PHOTO_MAX_FILE_BYTES) throw new Error('Each photo must be 15 MB or smaller.');
+    const img = await loadImageFromFile(file);
+    const scale = Math.min(1, PHOTO_MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+    const ctx = canvas.getContext('2d');
+    // JPEG has no transparency, so paint white behind PNG/WebP images.
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/jpeg', PHOTO_QUALITY);
+  };
+
+  // One shared full-size viewer, used by the resident and provider pages.
+  let photoDialog = null;
+  const openPhotoViewer = (src, alt) => {
+    if (!photoDialog) {
+      photoDialog = document.createElement('dialog');
+      photoDialog.className = 'photo-viewer';
+      photoDialog.setAttribute('aria-label', 'Photo preview');
+      const img = document.createElement('img');
+      img.className = 'photo-viewer-img';
+      const close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'photo-viewer-close';
+      close.setAttribute('aria-label', 'Close photo');
+      close.textContent = '\u00D7';
+      close.addEventListener('click', () => photoDialog.close());
+      // Clicking the dark backdrop closes it too.
+      photoDialog.addEventListener('click', (event) => {
+        if (event.target === photoDialog) photoDialog.close();
+      });
+      photoDialog.append(img, close);
+      document.body.append(photoDialog);
+    }
+    const img = photoDialog.querySelector('.photo-viewer-img');
+    img.src = src;
+    img.alt = alt || 'Photo attached to the request';
+    if (typeof photoDialog.showModal === 'function') photoDialog.showModal();
+    else window.open(src, '_blank', 'noopener');
+  };
+
+  // Thumbnail strip for a request; returns null when there are no photos.
+  const createPhotoGallery = (photos, label = 'Photos attached to this request') => {
+    const list = Array.isArray(photos)
+      ? photos.filter((src) => typeof src === 'string' && src.startsWith('data:image/'))
+      : [];
+    if (!list.length) return null;
+    const wrap = document.createElement('div');
+    wrap.className = 'request-photos';
+    const heading = document.createElement('p');
+    heading.className = 'request-photos-title';
+    heading.textContent = `${label} (${list.length})`;
+    const grid = document.createElement('ul');
+    grid.className = 'request-photos-grid';
+    list.forEach((src, index) => {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'request-photo-thumb';
+      button.setAttribute('aria-label', `View photo ${index + 1} of ${list.length} full size`);
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Photo ${index + 1} of ${list.length}`;
+      img.loading = 'lazy';
+      button.append(img);
+      button.addEventListener('click', () => openPhotoViewer(src, img.alt));
+      item.append(button);
+      grid.append(item);
+    });
+    wrap.append(heading, grid);
+    return wrap;
+  };
+
   window.SerbisyoCommon = {
     showToast,
+    PHOTO_MAX_COUNT,
+    compressPhoto,
+    openPhotoViewer,
+    createPhotoGallery,
     getSafeNextPath,
     wireAuthSwitchLinks,
     initializeAuthNav,

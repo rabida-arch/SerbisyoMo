@@ -55,7 +55,7 @@
       <p class="request-provider" id="request-provider"></p>
       <div class="request-feedback" id="request-feedback" role="status" aria-live="polite"></div>
       <form id="service-request-form" novalidate>
-        <p class="required-note"><span class="required-mark" aria-hidden="true">*</span> All fields are required.</p>
+        <p class="required-note"><span class="required-mark" aria-hidden="true">*</span> All fields are required except photos.</p>
         <div class="request-fields">
           <div class="request-field">
             <label for="requester-name">Full name <span class="required-mark" aria-hidden="true">*</span></label>
@@ -99,6 +99,17 @@
             <label for="work-description">Description of the work needed <span class="required-mark" aria-hidden="true">*</span></label>
             <textarea id="work-description" name="workDescription" rows="5" required aria-required="true" aria-describedby="work-description-error"></textarea>
             <p class="field-error" id="work-description-error"></p>
+          </div>
+
+          <div class="request-field request-field-wide photo-field">
+            <label for="request-photos">Photos of the problem <span class="optional-mark">(optional, up to 3)</span></label>
+            <input id="request-photos" name="photos" class="photo-input" type="file" accept="image/*" multiple aria-describedby="request-photos-hint request-photos-error">
+            <label class="photo-picker" for="request-photos" id="photo-picker">
+              <span class="photo-picker-icon" aria-hidden="true">+</span>
+              <span class="photo-picker-text"><strong>Add photos</strong><small id="request-photos-hint">Show the provider what needs fixing. JPG, PNG or WebP.</small></span>
+            </label>
+            <ul class="photo-previews" id="photo-previews" aria-label="Selected photos"></ul>
+            <p class="field-error" id="request-photos-error" role="alert"></p>
           </div>
 
           <div class="request-field">
